@@ -38,25 +38,25 @@ class Start_Page:
         self.parent = parent
         
         self.frame = ttk.Frame(window)
-        self.frame.pack()
+        self.frame.pack(fill="both", expand=True)
 
         self.welcm_lbl = ttk.Label(self.frame, text='welcome')
-        self.welcm_lbl.grid(row=0, column=1)
+        self.welcm_lbl.place(x = 300, y = 20)
 
         self.name_lbl = ttk.Label(self.frame, text='name:')
-        self.name_lbl.grid(row=1, column=0)
+        self.name_lbl.place(x = 300, y = 50)
 
         self.name_entry = ttk.Entry(self.frame)
-        self.name_entry.grid(row=1, column=1)
+        self.name_entry.place(x = 300, y = 80)
 
         self.sbt = ttk.Button(self.frame, text='login', command=self.clicked)
-        self.sbt.grid(row=2, column=1)
+        self.sbt.place(x = 300, y = 120)
         
         self.img = Image.open("fmc_logo.png")
-        self.img_new_size = self.img.resize((120, 220))
-        self.tkimage = itk.PhotoImage(image = self.img_new_size, size = (120,200))
+        self.img_new_size = self.img.resize((200, 236))
+        self.tkimage = itk.PhotoImage(image = self.img_new_size)
         self.label_img = ttk.Label(self.frame, image=self.tkimage)
-        self.label_img.grid(row=4, column = 2)
+        self.label_img.place(x = 50, y = 100)
         
 
     def clicked(self):
