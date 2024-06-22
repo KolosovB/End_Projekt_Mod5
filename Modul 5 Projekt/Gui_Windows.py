@@ -37,8 +37,9 @@ class Start_Page:
         #send_info = ['fmcsqlbk.database.windows.net', 'fmcdbbk', 'Lanazgul', 'TempPass!321']
 
         #fcon.write_conf_file(send_info)
-        
-
+        temp_gui = []
+        fcon.read_conf_file(temp_gui)
+        print(temp_gui)
 
         self.parent = parent
         

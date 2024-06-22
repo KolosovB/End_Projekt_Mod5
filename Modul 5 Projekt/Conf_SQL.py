@@ -35,18 +35,12 @@ def write_conf_file(send_info):
     with open(conf_name, "w") as file:
         for i in range(len(send_info)):
                 file.write(temp[i][0] + " = " + send_info[i] + "\n")
-        file.write("driver = {ODBC Driver 18 for SQL Server}\n")
+        file.write("driver = {ODBC Driver 18 for SQL Server}")
 
-def open_conf_file():
+def read_conf_file(temp):
 
     with open(conf_name, "r", encoding="UTF-8") as file:
-        temp = []
         for line in file:
             temp.append(line.strip().split(" = "))
-        
-        print(temp)
-    return temp
 
-# with open("Dateiname", "r") as file:
-#     while line := file.readline():
-#         print(line.rstrip())
+    return temp
