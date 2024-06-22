@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox as mb
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
-import Conf_SQL as scon
+import Conf_SQL as fcon
 
 class maingui:
     
@@ -32,6 +32,12 @@ class maingui:
 class Start_Page:
     def __init__(self, parent, window):
         
+        fcon.check_conf_file()
+        
+        send_info = ['fmcsqlbk.database.windows.net', 'fmcdbbk', 'Lanazgul', 'TempPass!321']
+
+        fcon.write_conf_file(send_info)
+
         self.parent = parent
         
         self.frame = ttk.Frame(window)
