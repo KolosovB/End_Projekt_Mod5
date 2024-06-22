@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox as mb
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
+import Conf_SQL as scon
 
 class maingui:
     
@@ -14,21 +15,21 @@ class maingui:
         d_height = self.root.winfo_screenheight()
         
         self.root.geometry("%dx%d+%d+%d" % (d_width, d_height, 0, 0))
-        self.pageshow = Login_Page(self, self.root)
+        self.pageshow = Start_Page(self, self.root)
       
     def changepage(self, page):
         self.page = page
         
         if self.page == 0:
             #del self.pageshow
-            self.pageshow = Login_Page(self, self.root)
+            self.pageshow = Start_Page(self, self.root)
 
         if self.page == 1:
             #del self.pageshow
             self.pageshow = Sign_Page(self, self.root)
 
 
-class Login_Page:
+class Start_Page:
     def __init__(self, parent, window):
         
         self.parent = parent
@@ -51,6 +52,9 @@ class Login_Page:
     def clicked(self):
         self.frame.destroy()
         self.parent.changepage(1)
+        
+    def sql_conf():
+        pass    
         
 
 class Sign_Page():
