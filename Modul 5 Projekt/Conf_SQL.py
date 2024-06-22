@@ -20,19 +20,17 @@ def check_conf_file():
 def create_conf_file():
     
     with open(conf_name, "w") as file:
-        file.write("server=''\n")
-        file.write("database=''\n")
-        file.write("username=''\n")
-        file.write("password=''\n")
-        file.write("driver='{ODBC Driver 18 for SQL Server}'\n")
+        file.write("server = ''\n")
+        file.write("database = ''\n")
+        file.write("username = ''\n")
+        file.write("password = ''\n")
+        file.write("driver = {ODBC Driver 18 for SQL Server}\n")
 
 def write_conf_file(send_info):
     with open(conf_name, "r", encoding="UTF-8") as file:
         temp = []
         for line in file:
             temp.append(line.strip().split(" = "))
-
-        print(temp)
         
     with open(conf_name, "w") as file:
         for i in range(len(send_info)):
