@@ -3,6 +3,7 @@ from tkinter import filedialog, messagebox as mb
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import Conf_SQL as fcon
+from PIL import Image, ImageTk as itk
 
 class maingui:
     
@@ -34,13 +35,6 @@ class Start_Page:
         
         fcon.check_conf_file()
         
-        #send_info = ['fmcsqlbk.database.windows.net', 'fmcdbbk', 'Lanazgul', 'TempPass!321']
-
-        #fcon.write_conf_file(send_info)
-        temp_gui = []
-        fcon.read_conf_file(temp_gui)
-        print(temp_gui)
-
         self.parent = parent
         
         self.frame = ttk.Frame(window)
@@ -57,6 +51,13 @@ class Start_Page:
 
         self.sbt = ttk.Button(self.frame, text='login', command=self.clicked)
         self.sbt.grid(row=2, column=1)
+        
+        self.img = Image.open("fmc_logo.png")
+        self.img_new_size = self.img.resize((120, 220))
+        self.tkimage = itk.PhotoImage(image = self.img_new_size, size = (120,200))
+        self.label_img = ttk.Label(self.frame, image=self.tkimage)
+        self.label_img.grid(row=4, column = 2)
+        
 
     def clicked(self):
         self.frame.destroy()
