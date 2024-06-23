@@ -22,6 +22,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Conf_SQL.py" />
+    <Compile Include="Funk_All.py" />
     <Compile Include="Gui_Windows.py" />
     <Compile Include="Modul_5_Projekt.py" />
   </ItemGroup>

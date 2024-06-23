@@ -3,7 +3,8 @@ from tkinter import filedialog, messagebox as mb
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
-
+import mysql.connector as dbcon
+#import pyodbc as dbcon
 
 import hashlib
 import datetime as dt
@@ -19,6 +20,8 @@ import Gui_Windows as win
 def main():
     root = tk.Tk()
     win.maingui(root, "Mitarbeiterverwaltung")
+    root.focus()
+
     root.mainloop()
     
 if __name__ =='__main__':
