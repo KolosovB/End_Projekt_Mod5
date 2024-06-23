@@ -31,12 +31,19 @@ class maingui:
 
 
 class Start_Page:
+    
     def __init__(self, parent, window):
+        
+        global points
+        points = []
         
         fcon.check_conf_file()
         
         self.parent = parent
         
+        points = self.take_the_middle(self.parent, points)
+        print(points)
+
         self.frame = ttk.Frame(window)
         self.frame.pack(fill="both", expand=True)
 
@@ -53,12 +60,13 @@ class Start_Page:
         self.sbt.place(x = 300, y = 120)
         
         self.img = Image.open("fmc_logo.png")
-        self.img_new_size = self.img.resize((200, 236))
+        width, height = self.img.size
+        self.img_new_size = self.img.resize((int(width/8), int(height/8)))
         self.tkimage = itk.PhotoImage(image = self.img_new_size)
         self.label_img = ttk.Label(self.frame, image=self.tkimage)
-        self.label_img.place(x = 50, y = 100)
+        self.label_img.place(x = ((points[2]-int(width/8))/2), y = ((points[1]-int(height/8))/2))
         
-
+        
     def clicked(self):
         self.frame.destroy()
         self.parent.changepage(1)
@@ -66,6 +74,19 @@ class Start_Page:
     def sql_conf():
         pass    
         
+    def take_the_middle(self, par, lis):
+        d_width = par.root.winfo_screenwidth()
+        lis.append(d_width) # 0
+        d_height = par.root.winfo_screenheight()
+        lis.append(d_height) # 1
+        mid_w = d_width / 2
+        lis.append(int(mid_w)) # 2
+        mid_h = d_height / 2
+        lis.append(int(mid_h)) # 3
+        mid_w_left_half = mid_w / 2
+        lis.append(int(mid_w_left_half)) # 4
+
+        return lis
 
 class Sign_Page():
     def __init__(self, parent, window):
