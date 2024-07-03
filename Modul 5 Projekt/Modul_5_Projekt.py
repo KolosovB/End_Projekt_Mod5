@@ -2,9 +2,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox as mb
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
-
-import mysql.connector as dbcon
-#import pyodbc as dbcon
+import pyodbc as dbcon
 
 import hashlib
 import datetime as dt

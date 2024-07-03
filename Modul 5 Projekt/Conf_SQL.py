@@ -1,7 +1,6 @@
 import sys
 IOError is OSError
-import mysql.connector as dbcon
-#import pyodbc as dbcon
+import pyodbc as dbcon
 
 global conf_name
 conf_name = "conf.ini"
@@ -48,27 +47,27 @@ def read_conf_file(temp):
     return temp
 
 def connect_to_datebank():
-
+    
+    global myDBcon
+    
     temp = []
     read_conf_file(temp)
-  
-    # try:
-    #     global myDBcon
-    #     myDBcon = dbcon.connect('DRIVER='+temp[4][1]+';SERVER='+temp[0][1]+';PORT=1433;DATABASE='+temp[1][1]+';UID='+temp[2][1]+';PWD='+temp[3][1])
 
-    # except dbcon.Error as err:
-    #     print("Something went wrong: {}".format(err))
-    #     try:
-    #         print("MySQL Error [%d]: %s" % (err.args[0], err.args[1]))
-    #         return None
-    #     except IndexError:
-    #         print ("MySQL Error: %s" % str(err))
-    #         return None
-    # except TypeError:
-    #     print(err)
-    #     return None
-    # except ValueError:
-    #     print(err)
-    #     return None
-        
-    # return myDBcon
+    try:
+        myDBcon = dbcon.connect('DRIVER='+temp[4][1]+';SERVER='+temp[0][1]+';DATABASE='+temp[1][1]+';UID='+temp[2][1]+';PWD='+temp[3][1]+';')
+    except dbcon.Error as err:
+        print("Something went wrong: {}".format(err))
+        try:
+            print("MySQL Error [%d]: %s" % (err.args[0], err.args[1]))
+            return None
+        except IndexError:
+            print ("MySQL Error: %s" % str(err))
+            return None
+    except TypeError:
+        print(err)
+        return None
+    except ValueError:
+        print(err)
+        return None
+
+    return myDBcon

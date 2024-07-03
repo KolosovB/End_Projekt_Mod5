@@ -2,6 +2,9 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import Conf_SQL as fcon
 from PIL import Image, ImageTk as itk
+import pyodbc as dbcon
+
+global myDBcon
 
 class maingui:
     
@@ -186,7 +189,7 @@ def create_table(main):
     lists = []
     
     def get_all_data():
-        
+        global myDBcon
         myDBcon = fcon.connect_to_datebank()
         
         for dbn in dbnames:
