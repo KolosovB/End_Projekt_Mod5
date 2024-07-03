@@ -314,8 +314,6 @@ def create_table(main):
                     if f == None: bi = "-"
                     else: bi = power_bi[int(f)-1][1]
                     data.append(bi)
-                    print(data)
-                    
                 else: break
 
             tab.insert("", "end", values=(data[0], data[14], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[15], data[16], data[17]))
@@ -457,13 +455,14 @@ def onselect(evt):
     converter(focus_list, evt.widget)
     
 def load_buttons(main):
+    
     buttonselect = tk.Button(main, text = "Select", command = selected, font = "Arial 9 bold", relief='flat')
     buttondeselect = tk.Button(main, text = "Deselect", command = deselected, font = "Arial 9 bold", relief='flat')
     buttontops = tk.Button(main, text = "Send to PS1", command = send_to_ps, font = "Arial 9 bold", relief='flat')
 
-    buttonselect.place(x = 20, y = 734, height= 40, width=80)
-    buttondeselect.place(x = 120, y = 734, height= 40, width=80)
-    buttontops.place(x = 220, y = 734, height= 40, width=80)
+    buttonselect.place(x = 20, y = 800, height= 40, width=80)
+    buttondeselect.place(x = 120, y = 800, height= 40, width=80)
+    buttontops.place(x = 220, y = 800, height= 40, width=80)
             
 def selected():
     global checker
