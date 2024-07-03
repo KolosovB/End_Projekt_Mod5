@@ -3,6 +3,7 @@ from ttkbootstrap.constants import *
 import Conf_SQL as fcon
 from PIL import Image, ImageTk as itk
 import pyodbc as dbcon
+import re
 
 global myDBcon
 
@@ -174,17 +175,24 @@ class WPEntry(ttk.Entry):
             self.insert(0, self.placeholder)
             
 def create_table(main):
-    global abteilung, arbeitszeit, mitarbeiter, mitarbeiter_adr, office_adr, position, vertrag, vertragsart
-    dbnames = ("abteilung", "arbeitszeit", "mitarbeiter", "mitarbeiter_adr", "office_adr", "position", "vertrag", "vertragsart")
+    global abteilung, arbeitszeit, gehalt, mitarbeiter, mitarbeiter_adr, msoffice, office_adr, position, power_bi, software, telefon, urlaub, vertrag, vertragsart, windows
+    dbnames = ("abteilung", "arbeitszeit", "gehalt", "mitarbeiter", "mitarbeiter_adr", "msoffice", "office_adr", "position", "power_bi", "software", "telefon", "urlaub", "vertrag", "vertragsart", "windows")
 
-    abteilung = []
+    abteilung = [] 
     arbeitszeit = []
-    mitarbeiter = []
+    gehalt = []
+    mitarbeiter = [] 
     mitarbeiter_adr = []
-    office_adr = []
-    position = []
-    vertrag = []
-    vertragsart = []
+    msoffice = [] 
+    office_adr = [] 
+    position = [] 
+    power_bi = [] 
+    software = [] 
+    telefon = [] 
+    urlaub = [] 
+    vertrag = [] 
+    vertragsart = [] 
+    windows = []
     
     lists = []
     
@@ -193,37 +201,46 @@ def create_table(main):
         myDBcon = fcon.connect_to_datebank()
         
         for dbn in dbnames:
+            dbcon.setDecimalSeparator(".")
             mycursor = myDBcon.cursor()
             get_data = "SELECT * FROM " + dbn + ";"
             mycursor.execute(get_data)
             getta = mycursor.fetchall()
             lists.append(getta)
+            mycursor.close()
     
     def sort_all_data():
         for i in range(len(lists)):
             for e in range(len(lists[i])):
                 if i == 0: abteilung.append(lists[i][e])
                 elif i == 1: arbeitszeit.append(lists[i][e])
-                elif i == 2: mitarbeiter.append(lists[i][e])
-                elif i == 3: mitarbeiter_adr.append(lists[i][e])
-                elif i == 4: office_adr.append(lists[i][e])
-                elif i == 5: position.append(lists[i][e])
-                elif i == 6: vertrag.append(lists[i][e])
-                elif i == 7: vertragsart.append(lists[i][e])
+                elif i == 2: gehalt.append(lists[i][e])
+                elif i == 3: mitarbeiter.append(lists[i][e])
+                elif i == 4: mitarbeiter_adr.append(lists[i][e])
+                elif i == 5: msoffice.append(lists[i][e])
+                elif i == 6: office_adr.append(lists[i][e])
+                elif i == 7: position.append(lists[i][e])
+                elif i == 8: power_bi.append(lists[i][e])
+                elif i == 9: software.append(lists[i][e])
+                elif i == 10: telefon.append(lists[i][e])
+                elif i == 11: urlaub.append(lists[i][e])
+                elif i == 12: vertrag.append(lists[i][e])
+                elif i == 13: vertragsart.append(lists[i][e])
+                elif i == 14: windows.append(lists[i][e])
                 else: break
 
         for n in range(len(mitarbeiter)):
             data = []
 
-            for i in range(14):
+            for i in range(18):
                 if i == 0: data.append(mitarbeiter[n][0])
                 elif i == 1: 
-                    s = mitarbeiter[n][7]
-                    f = vertrag[s-1][2]
+                    s = mitarbeiter[n][9]
+                    f = vertrag[s-1][1]
                     data.append(abteilung[int(f)-1][1])
                 elif i == 2:
-                    s = mitarbeiter[n][7]
-                    f = vertrag[s-1][3]
+                    s = mitarbeiter[n][9]
+                    f = vertrag[s-1][2]
                     data.append(position[int(f)-1][1])
                 elif i == 3: 
                     vorname = mitarbeiter[n][1]
@@ -238,35 +255,59 @@ def create_table(main):
                     ort =  mitarbeiter_adr[s-1][3]
                     adresse = strasse + " " + haus + ", " + plz + " " + ort
                     data.append(adresse)
-                elif i == 5: data.append(mitarbeiter[n][5])
-                elif i == 6: data.append(mitarbeiter[n][6])
+                elif i == 5: 
+                    t = mitarbeiter[n][5]
+                    data.append(telefon[int(t)-1][1])
+                elif i == 6: 
+                    data.append(mitarbeiter[n][6])
                 elif i == 7:
                     gb = str(mitarbeiter[n][3]).split("-")
                     gbg = gb[2] + "." + gb[1] + "." + gb[0]
                     data.append(gbg)
                 elif i == 8: 
-                    av = str(vertrag[(mitarbeiter[n][7]) - 1][4]).split("-")
+                    av = str(vertrag[(mitarbeiter[n][9]) - 1][3]).split("-")
                     ava = av[2] + "." + av[1] + "." + av[0]
                     data.append(ava)
                 elif i == 9:
-                    av = str(vertrag[(mitarbeiter[n][7]) - 1][5]).split("-")
-                    if av[0] == "1900": ava = "-"
-                    else: ava = av[2] + "." + av[1] + "." + av[0]
-                    data.append(ava)
+                    av = str(vertrag[(mitarbeiter[n][9]) - 1][4]).split("-")
+                    if av[0] == "1900": ave = "-"
+                    else: ave = av[2] + "." + av[1] + "." + av[0]
+                    data.append(ave)
                 elif i == 10:
-                    s = mitarbeiter[n][7]
-                    f = vertrag[s-1][7]
+                    s = mitarbeiter[n][9]
+                    f = vertrag[s-1][6]
                     data.append(vertragsart[int(f)-1][1])
                 elif i == 11: 
-                    s = mitarbeiter[n][7]
-                    f = vertrag[s-1][6]
+                    s = mitarbeiter[n][9]
+                    f = vertrag[s-1][5]
                     data.append(arbeitszeit[int(f)-1][1])
                 elif i == 12:
-                    s = mitarbeiter[n][7]
-                    data.append(vertrag[s-1][8])
+                    s = mitarbeiter[n][9]
+                    f = vertrag[s-1][7]
+                    data.append(urlaub[int(f)-1][1])
                 elif i == 13:
                     s = mitarbeiter[n][7]
-                    data.append(vertrag[s-1][9])    
+                    f = vertrag[s-1][8]
+                    data.append(gehalt[s-1][1])
+                elif i == 14:
+                    s = mitarbeiter[n][8]
+                    data.append(office_adr[int(s)-1][1])
+                elif i == 15: 
+                    s = mitarbeiter[n][7]
+                    f = software[s-1][1]
+                    data.append(windows[int(f)-1][1])
+                elif i == 16:
+                    s = mitarbeiter[n][7]
+                    f = software[s-1][2]
+                    data.append(msoffice[int(f)-1][1])
+                elif i == 17:
+                    s = mitarbeiter[n][7]
+                    f = software[s-1][3]
+                    if f == None: bi = "-"
+                    else: bi = power_bi[int(f)-1][1]
+                    data.append(bi)
+                    print(data)
+                    
                 else: break
 
             tab.insert("", "end", values=(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13]))
