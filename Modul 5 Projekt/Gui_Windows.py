@@ -5,11 +5,7 @@ from ttkbootstrap.constants import *
 import Conf_SQL as fcon
 from PIL import Image, ImageTk as itk
 import pyodbc as dbcon
-
 from encodings import utf_8
-
-import re
-
 
 global myDBcon, d_width, d_height
 
@@ -318,6 +314,8 @@ def create_table(main):
                     if f == None: bi = "-"
                     else: bi = power_bi[int(f)-1][1]
                     data.append(bi)
+                    print(data)
+                    
                 else: break
 
             tab.insert("", "end", values=(data[0], data[14], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[15], data[16], data[17]))
