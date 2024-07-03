@@ -306,16 +306,7 @@ def create_table(main):
                     data.append(windows[int(f)-1][1])
                 elif i == 16:
                     s = mitarbeiter[n][7]
-                    f = software[s-1][2]
-                    data.append(msoffice[int(f)-1][1])
-                elif i == 17:
-                    s = mitarbeiter[n][7]
-                    f = software[s-1][3]
-                    if f == None: bi = "-"
-                    else: bi = power_bi[int(f)-1][1]
-                    data.append(bi)
-                    print(data)
-                    
+                    data.append(vertrag[s-1][9])    
                 else: break
 
             tab.insert("", "end", values=(data[0], data[14], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[15], data[16], data[17]))
