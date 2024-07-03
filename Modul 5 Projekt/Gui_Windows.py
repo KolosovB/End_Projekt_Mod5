@@ -5,8 +5,9 @@ from ttkbootstrap.constants import *
 import Conf_SQL as fcon
 from PIL import Image, ImageTk as itk
 import pyodbc as dbcon
+from encodings import utf_8
 
-global myDBcon
+global myDBcon, d_width, d_height
 
 class maingui:
     
@@ -15,6 +16,8 @@ class maingui:
         self.root = root
         self.root.title(title)
         
+        global d_width, d_height
+
         d_width = self.root.winfo_screenwidth()
         d_height = self.root.winfo_screenheight()
         
@@ -292,7 +295,11 @@ def create_table(main):
                     data.append(gehalt[s-1][1])
                 elif i == 14:
                     s = mitarbeiter[n][8]
-                    data.append(office_adr[int(s)-1][0])
+                    f = office_adr[int(s)-1][0]
+                    if f == 1: office = "Alt-Moabit"
+                    if f == 2: office = "Friedrich-OD"
+                    if f == 3: office = "Alfredstraße"
+                    data.append(office)
                 elif i == 15: 
                     s = mitarbeiter[n][7]
                     f = software[s-1][1]
@@ -311,10 +318,10 @@ def create_table(main):
                     
                 else: break
 
-            tab.insert("", "end", values=(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[14], data[15], data[16], data[17]))
+            tab.insert("", "end", values=(data[0], data[14], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[15], data[16], data[17]))
         
     global tab_frame
-    tab_frame = ttk.Frame(main, relief= "flat", width= 1450)
+    tab_frame = ttk.Frame(main, relief= "flat", width=(d_width - ((d_width/100)*2)))
     tab_frame.pack()
     global vsb
     vsb = ttk.Scrollbar(tab_frame, orient="vertical")
@@ -323,26 +330,26 @@ def create_table(main):
     hsb = ttk.Scrollbar(tab_frame, orient="horizontal")
     hsb.pack(side="bottom", anchor = "s", fill="x", expand=True)
     global tab
-    tab = ttk.Treeview(tab_frame, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18), height=34, show="headings", yscrollcommand= vsb.set, xscrollcommand= hsb.set)
+    tab = ttk.Treeview(tab_frame, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18), height=40, show="headings", yscrollcommand= vsb.set, xscrollcommand= hsb.set)
     
     tab.column(1, width=30, stretch= True)
-    tab.column(2, width=120, stretch= True)
-    tab.column(3, width=170, stretch= True)
-    tab.column(4, width=140, stretch= True)
-    tab.column(5, width=230, stretch= True)
-    tab.column(6, width=90, stretch= True)
-    tab.column(7, width=260, stretch= True)
-    tab.column(8, width=100, stretch= True)
-    tab.column(9, width=100, stretch= True)
-    tab.column(10, width=90, stretch= True)
-    tab.column(11, width=90, stretch= True)
-    tab.column(12, width=90, stretch= True)
+    tab.column(2, width=86, stretch= True)
+    tab.column(3, width=110, stretch= True)
+    tab.column(4, width=160, stretch= True)
+    tab.column(5, width=116, stretch= True)
+    tab.column(6, width=210, stretch= True)
+    tab.column(7, width=70, stretch= True)
+    tab.column(8, width=260, stretch= True)
+    tab.column(9, width=86, stretch= True)
+    tab.column(10, width=86, stretch= True)
+    tab.column(11, width=86, stretch= True)
+    tab.column(12, width=86, stretch= True)
     tab.column(13, width=70, stretch= True)
-    tab.column(14, width=90, stretch= True)
-    tab.column(15, width=90, stretch= True)
-    tab.column(16, width=70, stretch= True)
-    tab.column(17, width=90, stretch= True)
-    tab.column(18, width=90, stretch= True)
+    tab.column(14, width=60, stretch= True)
+    tab.column(15, width=70, stretch= True)
+    tab.column(16, width=230, stretch= True)
+    tab.column(17, width=240, stretch= True)
+    tab.column(18, width=230, stretch= True)
 
     tab.heading(1, text = "ID")
     tab.heading(2, text = "Office_ID")
