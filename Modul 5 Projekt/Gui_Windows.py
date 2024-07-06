@@ -151,8 +151,8 @@ class Sign_Page():
 
         self.parent = parent
 
-        self.frame = ttk.Frame(window)
-        self.frame.pack()
+        self.frame = ttk.Frame(window, border=5,borderwidth=10)
+        self.frame.pack(fill="both", expand=True)
 
         create_table(self.frame)
         load_buttons(self.frame)
@@ -320,7 +320,7 @@ def create_table(main):
         
     global tab_frame
     tab_frame = ttk.Frame(main, relief= "flat", width=(d_width - ((d_width/100)*2)))
-    tab_frame.pack()
+    tab_frame.pack(side="top")
     global vsb
     vsb = ttk.Scrollbar(tab_frame, orient="vertical")
     vsb.pack(side="right", anchor = "e", fill="y", expand=True)
@@ -375,7 +375,7 @@ def create_table(main):
     tab.pack()
     tab.bind("<Button-1>", onselect)
     tab.bind("<Key> <Button-1>", pressed)
-    
+
     vsb.configure(command=tab.yview)
     hsb.configure(command=tab.xview)
     
@@ -454,15 +454,15 @@ def onselect(evt):
     
     converter(focus_list, evt.widget)
     
-def load_buttons(main):
+def load_buttons(frame):
     
-    buttonselect = tk.Button(main, text = "Select", command = selected, font = "Arial 9 bold", relief='flat')
-    buttondeselect = tk.Button(main, text = "Deselect", command = deselected, font = "Arial 9 bold", relief='flat')
-    buttontops = tk.Button(main, text = "Send to PS1", command = send_to_ps, font = "Arial 9 bold", relief='flat')
+    buttonselect = ttk.Button(frame, text = "Select", command = selected)
+    buttondeselect = ttk.Button(frame, text = "Deselect", command = deselected)
+    buttontops = ttk.Button(frame, text = "Send to PS1", command = send_to_ps)
 
-    buttonselect.place(x = 20, y = 800, height= 40, width=80)
-    buttondeselect.place(x = 120, y = 800, height= 40, width=80)
-    buttontops.place(x = 220, y = 800, height= 40, width=80)
+    buttonselect.pack(padx=20, side=tk.LEFT)
+    buttondeselect.pack(padx=20,side=tk.LEFT)
+    buttontops.pack(padx=20,side=tk.LEFT)
             
 def selected():
     global checker
