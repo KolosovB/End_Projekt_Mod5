@@ -420,3 +420,14 @@ def del_user(x):
             fcon.myDBcon.rollback()
 
     else: print("Kann nicht ohne DB Konnektion.")
+    
+    gw.tab_frame.forget()
+        
+    gw.buttonselect.forget()
+    gw.buttondeselect.forget()
+    gw.buttonaddma.forget()
+    gw.buttondelete.forget()
+    gw.buttontops.forget()
+
+    gw.create_table()
+    gw.load_buttons()

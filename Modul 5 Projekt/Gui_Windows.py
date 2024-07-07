@@ -147,6 +147,8 @@ class Start_Page:
 
         return lis
 
+global tefra
+
 class Sign_Page():
     
     def __init__(self, parent, window):
@@ -156,8 +158,11 @@ class Sign_Page():
         self.frame = ttk.Frame(window, border=5,borderwidth=10)
         self.frame.pack(fill="both", expand=True)
 
-        create_table(self.frame)
-        load_buttons(self.frame)
+        global tefra
+        tefra = self.frame
+
+        create_table()
+        load_buttons()
 
     def clicked(self):
         self.frame.destroy()
@@ -180,7 +185,7 @@ class WPEntry(ttk.Entry):
             
             self.insert(0, self.placeholder)
             
-def create_table(main):
+def create_table():
     global lists, abteilung, arbeitszeit, gehalt, mitarbeiter, mitarbeiter_adr, msoffice, office_adr, position, power_bi, software, telefon, urlaub, vertrag, vertragsart, windows
     dbnames = ("abteilung", "arbeitszeit", "gehalt", "mitarbeiter", "mitarbeiter_adr", "msoffice", "office_adr", "position", "power_bi", "software", "telefon", "urlaub", "vertrag", "vertragsart", "windows")
 
@@ -321,8 +326,8 @@ def create_table(main):
             tab.insert("", "end", values=(data[0], data[14], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[15], data[16], data[17]))
         
     global tab_frame
-    tab_frame = ttk.Frame(main, relief= "flat", width=(d_width - ((d_width/100)*2)))
-    tab_frame.pack(side="top")
+    tab_frame = ttk.Frame(tefra, relief= "flat", width=(d_width - ((d_width/100)*2)))
+    tab_frame.pack(padx=0, ipadx=0, ipady=0, side="top")
     global vsb
     vsb = ttk.Scrollbar(tab_frame, orient="vertical")
     vsb.pack(side="right", anchor = "e", fill="y", expand=True)
@@ -456,13 +461,17 @@ def onselect(evt):
     
     converter(focus_list, evt.widget)
     
-def load_buttons(frame):
+global buttonselect, buttondeselect, buttonaddma, buttondelete, buttontops
+
+def load_buttons():
     
-    buttonselect = ttk.Button(frame, text = "Select All", command = selected)
-    buttondeselect = ttk.Button(frame, text = "Deselect All", command = deselected)
-    buttonaddma = ttk.Button(frame, text = "Add/Edit Mitarbeiter", command = edit_user)
-    buttondelete = ttk.Button(frame, text = "Delete Mitarbeiter", command = del_user)
-    buttontops = ttk.Button(frame, text = "Send to PS1", command = send_to_ps)
+    global buttonselect, buttondeselect, buttonaddma, buttondelete, buttontops
+    
+    buttonselect = ttk.Button(tefra, text = "Select All", command = selected)
+    buttondeselect = ttk.Button(tefra, text = "Deselect All", command = deselected)
+    buttonaddma = ttk.Button(tefra, text = "Add/Edit Mitarbeiter", command = edit_user)
+    buttondelete = ttk.Button(tefra, text = "Delete Mitarbeiter", command = del_user)
+    buttontops = ttk.Button(tefra, text = "Send to PS1", command = send_to_ps)
 
     buttonselect.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
     buttondeselect.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
@@ -586,16 +595,23 @@ def edit_user():
         
     try:
         check_index_list(index_list)
-        #create_table(Sign_Page(maingui.self, maingui.self))
+        tab_frame.forget()
         
-        #controller.frames[PageOne].add_data() # update the other page
-        #controller.show_frame(PageOne)
+        buttonselect.forget()
+        buttondeselect.forget()
+        buttonaddma.forget()
+        buttondelete.forget()
+        buttontops.forget()
+
+        create_table()
+        load_buttons()
+
     except UnboundLocalError: pass
 
-def del_user(frame):
+def del_user():
     
     for x in index_list:
-        fa.del_user(x)
-      
-    #tab_frame.forget()
-    #create_table(frame)
+        for y in len(lists[3]):
+            if x == lists[3][y][1]:
+                fa.del_user()
+            else: pass
