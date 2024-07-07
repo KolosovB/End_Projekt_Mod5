@@ -3,6 +3,7 @@ from tkinter import filedialog, messagebox as mb
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import Conf_SQL as fcon
+import Funk_All as fa
 from PIL import Image, ImageTk as itk
 import pyodbc as dbcon
 from encodings import utf_8
@@ -92,7 +93,7 @@ class Start_Page:
         self.checkbox.place(x = points[4], y = (((points[1]-int(height/8))/2) + 236))
 
         self.sbt = ttk.Button(self.frame, text='Login', command=self.clicked)
-        self.sbt.place(x = points[4], y = (((points[1]-int(height/8))/2) + 260))
+        self.sbt.place(x = points[4], y = (((points[1]-int(height/8))/2) + 260), width=140, height=40)
         
     def clicked(self):
 
@@ -456,14 +457,20 @@ def onselect(evt):
     
 def load_buttons(frame):
     
-    buttonselect = ttk.Button(frame, text = "Select", command = selected)
-    buttondeselect = ttk.Button(frame, text = "Deselect", command = deselected)
+    buttonselect = ttk.Button(frame, text = "Select All", command = selected)
+    buttondeselect = ttk.Button(frame, text = "Deselect All", command = deselected)
     buttontops = ttk.Button(frame, text = "Send to PS1", command = send_to_ps)
+    buttonedit = ttk.Button(frame, text = "Edit Mitarbeiter", command = edit_user)
+    buttondelete = ttk.Button(frame, text = "Delete Mitarbeiter", command = del_user)
+    buttonaddma = ttk.Button(frame, text = "Add Mitarbeiter", command = add_user)
 
-    buttonselect.pack(padx=20, side=tk.LEFT)
-    buttondeselect.pack(padx=20,side=tk.LEFT)
-    buttontops.pack(padx=20,side=tk.LEFT)
-            
+    buttonselect.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
+    buttondeselect.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
+    buttonaddma.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
+    buttonedit.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
+    buttondelete.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
+    buttontops.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
+     
 def selected():
     global checker
     global tab
@@ -494,7 +501,7 @@ def ask_password_window():
     fenster = ttk.Toplevel()
     fenster.title("Password")
     fenster.attributes("-topmost", "True")
-    fenster.geometry("400x300")
+    fenster.geometry("300x200")
 
     labelchen = ttk.Label(fenster, text = "Bitte Password eingeben.").place(x = 30, y = 30)
     lb_pass = ttk.Label(fenster, text = "Passwort: ")
@@ -518,17 +525,11 @@ def create_ps1_file():
     try:
         file_path = str((filedialog.asksaveasfile(mode='w', filetypes=(("PS1 files","*.ps1"),("All files","*.*")))).name)
         with open(file_path, mode='a', newline='', encoding='utf-8') as file:
-            file.write("\n")
-            file.write("Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force -Confirm:$false")
-            file.write("\n")
-            file.write("Import-Module ActiveDirectory")
-            file.write("\n")
-            file.write("\n")
-            file.write("$Kennwort = ConvertTo-SecureString -String \"" + newpassword + "\" -AsPlainText -Force")
-            file.write("\n")
+            file.write("Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force -Confirm:$false\n\n")
+            file.write("Import-Module ActiveDirectory\n\n")
+            file.write("$Kennwort = ConvertTo-SecureString -String \"" + newpassword + "\" -AsPlainText -Force\n\n")
             main_ou = "\"DC=" + firm_data[2] + ", DC=" + firm_data[3] + "\""
-            file.write("\nNew-ADOrganizationalUnit -Name \"" + firm_data[0] + "\" -Path " + main_ou + " -ProtectedFromAccidentalDeletion $False \n")
-            file.write("\n")
+            file.write("New-ADOrganizationalUnit -Name \"" + firm_data[0] + "\" -Path " + main_ou + " -ProtectedFromAccidentalDeletion $False\n")
             
             for ans in abteilung:
                 temp = "$" + str(ans[1]).lower()
@@ -546,12 +547,13 @@ def create_ps1_file():
                         user_name = user_vorname + " " + user_surname
                         user_sa_name = (user_vorname + "." + user_surname).lower()
                         user_email = user[6]
-                        user_phone = user[5]
+                        user_phone = str(telefon[(user[5]-1)][1])
                 
-                        vertrag_id = user[7]
-                        abteilung_id = vertrag[(vertrag_id-1)][2]
-                        user_department = abteilung[(abteilung_id-1)][1]
-
+                        vertrag_id = user[9]
+                        abteilung_id = vertrag[vertrag_id-1][1]
+                        user_department = abteilung[abteilung_id-1][1]
+                        position_id = vertrag[vertrag_id-1][2]
+                        user_position = position[position_id-1][1]
                         temp2 = str(user_department)
                         new_root = "'OU=" + temp2 + ", OU=" + firm_data[0] + ", DC=" + firm_data[2] + ", DC=" + firm_data[3] + "'"
 
@@ -561,8 +563,21 @@ def create_ps1_file():
                         user_adresse = street + " " + haus_nr
                         user_plz = mitarbeiter_adr[adresse_id][4]
                         user_city = mitarbeiter_adr[adresse_id][3]
+                        
+                        companie_ad = office_adr[user[8]-1][1] + " " + office_adr[user[8]-1][2] + ", " + office_adr[user[8]-1][3] + ", " + office_adr[user[8]-1][4]
+                        comp_adresse = companie_ad
                 
-                        file.write("\nif (-not (Get-ADUser -Filter {SamAccountName -eq '" + user_sa_name + "'})) {\nNew-ADUser -Name '" + user_name + "' -DisplayName '" + user_name + "' -GivenName '" + user_vorname + "' -Surname '" + user_surname + "' -SamAccountName '" + user_sa_name + "' -UserPrincipalName '" + user_sa_name + firm_data[1] + "' -EmailAddress '" + user_email + "'  -Department '" + user_department + "' -Path " + new_root + " -AccountPassword $Kennwort -CannotChangePassword $false -ChangePasswordAtLogon $false -PasswordNeverExpires $true -StreetAddress '" + user_adresse + "' -City '" + user_city + "' -PostalCode '" + user_plz + "' -Company 'Finck & Maier IT Consulting GmbH' -Country 'DE' -OfficePhone '" + user_phone + "' -Enabled $true \n} else {\n} \n")
+                        file.write("\nif (-not (Get-ADUser -Filter {SamAccountName -eq '" + user_sa_name + "'})) {\nNew-ADUser -Name '" + user_name + "' -DisplayName '" + user_name + "' -GivenName '" + user_vorname + "' -Surname '" + user_surname + "' -SamAccountName '" + user_sa_name + "' -UserPrincipalName '" + user_sa_name + firm_data[1] + "' -EmailAddress '" + user_email + "' -Department '" + user_department + "'  -Title '" + user_position + "' -Path " + new_root + " -AccountPassword $Kennwort -CannotChangePassword $false -ChangePasswordAtLogon $false -PasswordNeverExpires $true -StreetAddress '" + user_adresse + "' -City '" + user_city + "' -PostalCode '" + user_plz + "' -Company 'Finck & Maier IT Consulting GmbH' -Country 'DE' -OfficePhone '" + user_phone + "'  -Office '" + comp_adresse + "' -Enabled $true \n} else {\n} \n")
     
     except AttributeError:
         pass
+    
+def add_user(): 
+    
+    new_window = fa.add_user_gui(Sign_Page)
+    
+
+def edit_user(): pass
+
+
+def del_user(): pass
