@@ -3,6 +3,7 @@ from tkinter import filedialog, messagebox as mb
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import Conf_SQL as fcon
+import Gui_Windows as gw
 
 class add_user_gui(ttk.Toplevel):
     """
@@ -12,13 +13,13 @@ class add_user_gui(ttk.Toplevel):
  
     def __init__(self, master):
 
-        def way_to_somewehere(tab):
-            way_to_temp = "SELECT * FROM " + str(tab)
-            mycursor.execute(way_to_temp)
-            some = []
-            for line in mycursor:
-                some.append(line[1])
-            return some
+        # def way_to_somewehere(tab):
+        #     way_to_temp = "SELECT * FROM " + str(tab)
+        #     mycursor.execute(way_to_temp)
+        #     some = []
+        #     for line in mycursor:
+        #         some.append(line[1])
+        #     return some
         
         def abteilung_ausgeben(event):
             global abteilung
@@ -53,261 +54,211 @@ class add_user_gui(ttk.Toplevel):
                 email = fname.lower() + "." + sname.lower() + "@finck-maier-consulting.de"
                 lb_lk.config(text = email)
                 return email
-                
-        def password_check(password):
-            """
-            Verify the strength of 'password'
-            Returns a dict indicating the wrong criteria
-            A password is considered strong if:
-                8 characters length or more
-                1 digit or more
-                1 symbol or more
-                1 uppercase letter or more
-                1 lowercase letter or more
-            """
-
-            # calculating the length
-            length_error = len(password) < 8
-
-            # searching for digits
-            digit_error = re.search(r"\d", password) is None
-
-            # searching for uppercase
-            uppercase_error = re.search(r"[A-Z]", password) is None
-
-            # searching for lowercase
-            lowercase_error = re.search(r"[a-z]", password) is None
-
-            # searching for symbols
-            symbol_error = re.search(r"\W", password) is None
-
-            # overall result
-            password_ok = not ( length_error or digit_error or uppercase_error or lowercase_error or symbol_error )
-
-            return {
-                'password_ok' : password_ok,
-                'length_error' : length_error,
-                'digit_error' : digit_error,
-                'uppercase_error' : uppercase_error,
-                'lowercase_error' : lowercase_error,
-                'symbol_error' : symbol_error,
-            }
             
-        def pass_check(event):
-            if len(ein_akt.get()) != 0:
-                temp = ein_akt.get()
-                passwort = password_check(temp)
-                if passwort["password_ok"] == True: 
-                    mb.showinfo(title="Its OK", message="Passwort is Gut!", parent=self)
-                    global new_pass
-                    new_pass = hashlib.md5(temp.encode('utf-8')).hexdigest()
-                    return new_pass
-                elif passwort["length_error"] == True: mb.showwarning(title="Error", message="Passwort soll mindestens 8 Zeichen lang sein", parent=self)
-                elif passwort["digit_error"] == True or passwort["uppercase_error"] == True or passwort["lowercase_error"] == True or passwort["symbol_error"] == True:
-                    mb.showwarning(title="Error", message="Passwort soll aus Groß- und Kleinbuchstaben, Ziffern sowie Sonderzeichen bestehen", parent=self)
-                else: print("Was war das?")
-            else: return None
-            
-        def condate(test):
-            """
-            Konvertiere Date in DB Format
-            """
-            import datetime
+        # def condate(test):
+        #     """
+        #     Konvertiere Date in DB Format
+        #     """
+        #     import datetime
 
-            def conv_date(test, x):
-                test = test.split(x)
-                date = datetime.datetime(int(test[2]), int(test[1]), int(test[0]))
-                return date
+        #     def conv_date(test, x):
+        #         test = test.split(x)
+        #         date = datetime.datetime(int(test[2]), int(test[1]), int(test[0]))
+        #         return date
 
-            if len(test.split(",")) > 2 : d = conv_date(test, ",")
-            elif len(test.split(".")) > 2: d = conv_date(test, ".")
-            elif len(test.split("/")) > 2: d = conv_date(test, "/")
-            else: d = None
+        #     if len(test.split(",")) > 2 : d = conv_date(test, ",")
+        #     elif len(test.split(".")) > 2: d = conv_date(test, ".")
+        #     elif len(test.split("/")) > 2: d = conv_date(test, "/")
+        #     else: d = None
 
-            return d
+        #     return d
             
-        def samle_all():
-            """
-            all_in_one :
-            #vorname = [0]
-            #nachname = [1]
-            #geburt = [2]
-            #telefon = [3]
-            #strasse = [4]
-            #hausnr = [5]
-            #plz = [6]
-            #ort = [7]
-            #abteilung_id = [8]
-            #position_id = [9]
-            #vertrag_id = [10]
-            #beschaf_id = [11]
-            #rolle_id = [12]
-            #email = [13]
-            #passwort = [14]
-            #gehalt = [15]
-            #vertragsbeginn = [16]
-            #vertragsende = [17]
-            """
-            all_in_one = []
-            all_in_one.append(ein_uno.get())
-            all_in_one.append(ein_duo.get())
+        # def samle_all():
+        #     """
+        #     all_in_one :
+        #     #vorname = [0]
+        #     #nachname = [1]
+        #     #geburt = [2]
+        #     #telefon = [3]
+        #     #strasse = [4]
+        #     #hausnr = [5]
+        #     #plz = [6]
+        #     #ort = [7]
+        #     #abteilung_id = [8]
+        #     #position_id = [9]
+        #     #vertrag_id = [10]
+        #     #beschaf_id = [11]
+        #     #rolle_id = [12]
+        #     #email = [13]
+        #     #passwort = [14]
+        #     #gehalt = [15]
+        #     #vertragsbeginn = [16]
+        #     #vertragsende = [17]
+        #     """
+        #     all_in_one = []
+        #     all_in_one.append(ein_uno.get())
+        #     all_in_one.append(ein_duo.get())
             
-            # Umwandle Datum
-            test = ein_tre.get()
-            bdate = condate(test)
-            all_in_one.append(bdate)
+        #     # Umwandle Datum
+        #     test = ein_tre.get()
+        #     bdate = condate(test)
+        #     all_in_one.append(bdate)
             
-            #all_in_one.append()
-            all_in_one.append(ein_qwa.get())
+        #     #all_in_one.append()
+        #     all_in_one.append(ein_qwa.get())
             
-            all_in_one.append(ein_qwi.get())
-            all_in_one.append(ein_sex.get())
-            all_in_one.append(ein_che.get())
-            all_in_one.append(ein_nen.get())
+        #     all_in_one.append(ein_qwi.get())
+        #     all_in_one.append(ein_sex.get())
+        #     all_in_one.append(ein_che.get())
+        #     all_in_one.append(ein_nen.get())
 
-            # Get Abteilung_ID
-            get_abt = "SELECT Abteilung_ID FROM abteilung WHERE Abteilung_name = '" + abteilung + "';"
-            mycursor.execute(get_abt)
-            abteilung_id = mycursor.fetchone()
-            all_in_one.append(abteilung_id)
+        #     # Get Abteilung_ID
+        #     get_abt = "SELECT Abteilung_ID FROM abteilung WHERE Abteilung_name = '" + abteilung + "';"
+        #     mycursor.execute(get_abt)
+        #     abteilung_id = mycursor.fetchone()
+        #     all_in_one.append(abteilung_id)
             
-            # Get Position_ID
-            get_pos = "SELECT `Position_ID` FROM `position` WHERE `Position_name` = '" + position + "';"
-            mycursor.execute(get_pos)
-            position_id = mycursor.fetchone()
-            all_in_one.append(position_id)
+        #     # Get Position_ID
+        #     get_pos = "SELECT `Position_ID` FROM `position` WHERE `Position_name` = '" + position + "';"
+        #     mycursor.execute(get_pos)
+        #     position_id = mycursor.fetchone()
+        #     all_in_one.append(position_id)
             
-            # Get Vertrag_ID
-            get_ver = "SELECT `Vertragsart_ID` FROM `vertragsart` WHERE `Vertragsart_name` = '" + vertrag + "';"
-            mycursor.execute(get_ver)
-            vertrag_id = mycursor.fetchone()
-            all_in_one.append(vertrag_id)
+        #     # Get Vertrag_ID
+        #     get_ver = "SELECT `Vertragsart_ID` FROM `vertragsart` WHERE `Vertragsart_name` = '" + vertrag + "';"
+        #     mycursor.execute(get_ver)
+        #     vertrag_id = mycursor.fetchone()
+        #     all_in_one.append(vertrag_id)
             
-            # Get Beschäftigung_ID
-            get_bes = "SELECT `Beschäftigung_ID` FROM `beschäftigung` WHERE `Beschäftigung_name` = '" + beschaf + "';"
-            mycursor.execute(get_bes)
-            beschaf_id = mycursor.fetchone()
-            all_in_one.append(beschaf_id)
+        #     # Get Beschäftigung_ID
+        #     get_bes = "SELECT `Beschäftigung_ID` FROM `beschäftigung` WHERE `Beschäftigung_name` = '" + beschaf + "';"
+        #     mycursor.execute(get_bes)
+        #     beschaf_id = mycursor.fetchone()
+        #     all_in_one.append(beschaf_id)
             
-            # Get Rolle
-            get_roll = "SELECT `Kontotype_ID` FROM `kontotype` WHERE `Kontotype_name` = '" + rolle + "';"
-            mycursor.execute(get_roll)
-            rolle_id = mycursor.fetchone()
-            all_in_one.append(rolle_id)
+        #     # Get Rolle
+        #     get_roll = "SELECT `Kontotype_ID` FROM `kontotype` WHERE `Kontotype_name` = '" + rolle + "';"
+        #     mycursor.execute(get_roll)
+        #     rolle_id = mycursor.fetchone()
+        #     all_in_one.append(rolle_id)
             
-            all_in_one.append(email)
-            all_in_one.append(new_pass)
+        #     all_in_one.append(email)
+        #     all_in_one.append(new_pass)
 
-            all_in_one.append(ein_non.get())
+        #     all_in_one.append(ein_non.get())
             
-            test2 = ein_vie.get()
-            vdate = condate(test2)
-            all_in_one.append(vdate)
-            test3 = ein_fun.get()
-            edate = condate(test3)
-            all_in_one.append(edate)
+        #     test2 = ein_vie.get()
+        #     vdate = condate(test2)
+        #     all_in_one.append(vdate)
+        #     test3 = ein_fun.get()
+        #     edate = condate(test3)
+        #     all_in_one.append(edate)
 
-            return all_in_one
+        #     return all_in_one
 
-        def send_an_db():
+        # def send_an_db():
 
-            all_for_send = samle_all()
-            check_bereitschaft = mb.askyesno(title="Bereitschaft", message="Sind Sie sicher?", parent=self)
-            if check_bereitschaft and all_for_send:
+        #     all_for_send = samle_all()
+        #     check_bereitschaft = mb.askyesno(title="Bereitschaft", message="Sind Sie sicher?", parent=self)
+        #     if check_bereitschaft and all_for_send:
                  
-                # Get Last Mitarbeiter_ID
-                get_last_ma_id = "SELECT * FROM `mitarbeiter` ORDER BY mitarbeiter.Mitarbeiter_ID DESC LIMIT 1;"
-                mycursor.execute(get_last_ma_id)
-                last_ma_id_old = mycursor.fetchone()
+        #         # Get Last Mitarbeiter_ID
+        #         get_last_ma_id = "SELECT * FROM `mitarbeiter` ORDER BY mitarbeiter.Mitarbeiter_ID DESC LIMIT 1;"
+        #         mycursor.execute(get_last_ma_id)
+        #         last_ma_id_old = mycursor.fetchone()
                 
-                # Send Adresse
-                send_adress = "INSERT INTO `Adresse` (`Straße`, `HausNr`, `Ort`, `PLZ`) VALUES ('" + str(all_for_send[4]) + "'," + str(all_for_send[5]) + ",'" + str(all_for_send[7]) + "','" + str(all_for_send[6]) + "');"
-                try:
-                    # Execute the SQL command
-                    mycursor.execute(send_adress)
-                    # Commit your changes in the database
-                    myDB.commit()
-                except:
-                    # Roll back in case there is any error
-                    myDB.rollback()
-                # Get Last Adresse_ID
-                get_last_id = "SELECT * FROM adresse ORDER BY `Adresse_ID` DESC LIMIT 1;"
-                mycursor.execute(get_last_id)
-                adress_id = mycursor.fetchone()
+        #         # Send Adresse
+        #         send_adress = "INSERT INTO `Adresse` (`Straße`, `HausNr`, `Ort`, `PLZ`) VALUES ('" + str(all_for_send[4]) + "'," + str(all_for_send[5]) + ",'" + str(all_for_send[7]) + "','" + str(all_for_send[6]) + "');"
+        #         try:
+        #             # Execute the SQL command
+        #             mycursor.execute(send_adress)
+        #             # Commit your changes in the database
+        #             myDB.commit()
+        #         except:
+        #             # Roll back in case there is any error
+        #             myDB.rollback()
+        #         # Get Last Adresse_ID
+        #         get_last_id = "SELECT * FROM adresse ORDER BY `Adresse_ID` DESC LIMIT 1;"
+        #         mycursor.execute(get_last_id)
+        #         adress_id = mycursor.fetchone()
                 
-                # Send Arbeitsvertrag
-                send_vert = "INSERT INTO `arbeitsvertrag` (`Vertragsbeginn`, `Vertragsende`, `Beschäftigung_ID`, `Vertragsart_ID`, `Gehalt`) VALUES ('" + str(all_for_send[16]) + "','" + str(all_for_send[17]) + "'," + str(all_for_send[11][0]) + "," + str(all_for_send[10][0]) + "," + str(all_for_send[15]) + ");"
-                try:
-                    # Execute the SQL command
-                    mycursor.execute(send_vert)
-                    # Commit your changes in the database
-                    myDB.commit()
-                except:
-                    # Roll back in case there is any error
-                    myDB.rollback()
-                # Get Last Arbeitsvertrag_ID
-                get_last_id = "SELECT * FROM arbeitsvertrag ORDER BY `Arbeitsvertrag_ID` DESC LIMIT 1;"
-                mycursor.execute(get_last_id)
-                vertrag_id = mycursor.fetchone()
+        #         # Send Arbeitsvertrag
+        #         send_vert = "INSERT INTO `arbeitsvertrag` (`Vertragsbeginn`, `Vertragsende`, `Beschäftigung_ID`, `Vertragsart_ID`, `Gehalt`) VALUES ('" + str(all_for_send[16]) + "','" + str(all_for_send[17]) + "'," + str(all_for_send[11][0]) + "," + str(all_for_send[10][0]) + "," + str(all_for_send[15]) + ");"
+        #         try:
+        #             # Execute the SQL command
+        #             mycursor.execute(send_vert)
+        #             # Commit your changes in the database
+        #             myDB.commit()
+        #         except:
+        #             # Roll back in case there is any error
+        #             myDB.rollback()
+        #         # Get Last Arbeitsvertrag_ID
+        #         get_last_id = "SELECT * FROM arbeitsvertrag ORDER BY `Arbeitsvertrag_ID` DESC LIMIT 1;"
+        #         mycursor.execute(get_last_id)
+        #         vertrag_id = mycursor.fetchone()
                 
-                # Send Login
-                send_log = "INSERT INTO `login`(`E_Mail`, `Password`) VALUES ('" + str(all_for_send[13]) + "','" + str(all_for_send[14]) + "');"
-                try:
-                    # Execute the SQL command
-                    mycursor.execute(send_log)
-                    # Commit your changes in the database
-                    myDB.commit()
-                except:
-                    # Roll back in case there is any error
-                    myDB.rollback()
-                # Get Last Arbeitsvertrag_ID
-                get_last_id = "SELECT * FROM login ORDER BY `Login_ID` DESC LIMIT 1;"
-                mycursor.execute(get_last_id)
-                log_id = mycursor.fetchone()
+        #         # Send Login
+        #         send_log = "INSERT INTO `login`(`E_Mail`, `Password`) VALUES ('" + str(all_for_send[13]) + "','" + str(all_for_send[14]) + "');"
+        #         try:
+        #             # Execute the SQL command
+        #             mycursor.execute(send_log)
+        #             # Commit your changes in the database
+        #             myDB.commit()
+        #         except:
+        #             # Roll back in case there is any error
+        #             myDB.rollback()
+        #         # Get Last Arbeitsvertrag_ID
+        #         get_last_id = "SELECT * FROM login ORDER BY `Login_ID` DESC LIMIT 1;"
+        #         mycursor.execute(get_last_id)
+        #         log_id = mycursor.fetchone()
                 
-                # Send Login
-                send_mit = "INSERT INTO `mitarbeiter`(`Vorname`, `Nachname`, `Geburtsdatum`, `Telefonnummer`, `Adresse_ID`, `Login_ID`, `Kontotype_ID`, `Abteilung_ID`, `Position_ID`, `Arbeitsvertrag_ID`) VALUES ('" + str(all_for_send[0]) + "','" + str(all_for_send[1]) + "','" + str(all_for_send[2]) + "'," + str(all_for_send[3]) + "," + str(adress_id[0]) + "," + str(log_id[0]) + "," + str(all_for_send[12][0]) + "," + str(all_for_send[8][0]) + "," + str(all_for_send[9][0]) + "," + str(vertrag_id[0]) + ");"
-                try:
-                    # Execute the SQL command
-                    mycursor.execute(send_mit)
-                    # Commit your changes in the database
-                    myDB.commit()
-                except:
-                    # Roll back in case there is any error
-                    myDB.rollback()
+        #         # Send Login
+        #         send_mit = "INSERT INTO `mitarbeiter`(`Vorname`, `Nachname`, `Geburtsdatum`, `Telefonnummer`, `Adresse_ID`, `Login_ID`, `Kontotype_ID`, `Abteilung_ID`, `Position_ID`, `Arbeitsvertrag_ID`) VALUES ('" + str(all_for_send[0]) + "','" + str(all_for_send[1]) + "','" + str(all_for_send[2]) + "'," + str(all_for_send[3]) + "," + str(adress_id[0]) + "," + str(log_id[0]) + "," + str(all_for_send[12][0]) + "," + str(all_for_send[8][0]) + "," + str(all_for_send[9][0]) + "," + str(vertrag_id[0]) + ");"
+        #         try:
+        #             # Execute the SQL command
+        #             mycursor.execute(send_mit)
+        #             # Commit your changes in the database
+        #             myDB.commit()
+        #         except:
+        #             # Roll back in case there is any error
+        #             myDB.rollback()
                     
-                # Get New Last Mitarbeiter_ID
-                mycursor.execute(get_last_ma_id)
-                last_ma_id_new = mycursor.fetchone()
+        #         # Get New Last Mitarbeiter_ID
+        #         mycursor.execute(get_last_ma_id)
+        #         last_ma_id_new = mycursor.fetchone()
 
-                we_mad_it = last_ma_id_old[0] < last_ma_id_new[0]
+        #         we_mad_it = last_ma_id_old[0] < last_ma_id_new[0]
                 
-                if we_mad_it:
-                    its_ok = mb.showinfo(title="Its OK", message="Its OK!", parent=self)
-                else: mb.showinfo(title="Trubbles", message="We Have Trubbles!", parent=self)
+        #         if we_mad_it:
+        #             its_ok = mb.showinfo(title="Its OK", message="Its OK!", parent=self)
+        #         else: mb.showinfo(title="Trubbles", message="We Have Trubbles!", parent=self)
                 
-                if we_mad_it and its_ok: self.destroy()
+        #         if we_mad_it and its_ok: self.destroy()
 
 
-        
-        rollen_liste = []
-        rollen_liste = way_to_somewehere("kontotype")
+        new_lists = []
+        new_lists = gw.lists
+        print(new_lists)
+
+        # rollen_liste = []
+        # rollen_liste = way_to_somewehere("kontotype")
             
-        vertrag_liste = []
-        vertrag_liste = way_to_somewehere("vertragsart")
+        # vertrag_liste = []
+        # vertrag_liste = way_to_somewehere("vertragsart")
 
-        beschaf_liste = []
-        beschaf_liste = way_to_somewehere("beschäftigung")
+        # beschaf_liste = []
+        # beschaf_liste = way_to_somewehere("beschäftigung")
         
-        abteilung_liste = []
-        abteilung_liste = way_to_somewehere("abteilung")
+        # abteilung_liste = []
+        # abteilung_liste = way_to_somewehere("abteilung")
         
-        position_liste = []
-        position_liste = way_to_somewehere("position")
+        # position_liste = []
+        # position_liste = way_to_somewehere("position")
 
         self = ttk.Toplevel()
         self.title("Add New User")
         self.attributes("-topmost", "True")
+        self.geometry(f"1400x780")
 
         # Erstellen des Label für die Überschrift
         title_label = ttk.Label(self, text="Neuer Mitarbeiter Information", font=("Verdana", 10, "bold"))

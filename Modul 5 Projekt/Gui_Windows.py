@@ -180,7 +180,7 @@ class WPEntry(ttk.Entry):
             self.insert(0, self.placeholder)
             
 def create_table(main):
-    global abteilung, arbeitszeit, gehalt, mitarbeiter, mitarbeiter_adr, msoffice, office_adr, position, power_bi, software, telefon, urlaub, vertrag, vertragsart, windows
+    global lists, abteilung, arbeitszeit, gehalt, mitarbeiter, mitarbeiter_adr, msoffice, office_adr, position, power_bi, software, telefon, urlaub, vertrag, vertragsart, windows
     dbnames = ("abteilung", "arbeitszeit", "gehalt", "mitarbeiter", "mitarbeiter_adr", "msoffice", "office_adr", "position", "power_bi", "software", "telefon", "urlaub", "vertrag", "vertragsart", "windows")
 
     abteilung = [] 
