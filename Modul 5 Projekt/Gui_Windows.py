@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox as mb
+from typing import Self
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import Conf_SQL as fcon
@@ -459,15 +460,13 @@ def load_buttons(frame):
     
     buttonselect = ttk.Button(frame, text = "Select All", command = selected)
     buttondeselect = ttk.Button(frame, text = "Deselect All", command = deselected)
-    buttontops = ttk.Button(frame, text = "Send to PS1", command = send_to_ps)
-    buttonedit = ttk.Button(frame, text = "Edit Mitarbeiter", command = edit_user)
+    buttonaddma = ttk.Button(frame, text = "Add/Edit Mitarbeiter", command = edit_user)
     buttondelete = ttk.Button(frame, text = "Delete Mitarbeiter", command = del_user)
-    buttonaddma = ttk.Button(frame, text = "Add Mitarbeiter", command = add_user)
+    buttontops = ttk.Button(frame, text = "Send to PS1", command = send_to_ps)
 
     buttonselect.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
     buttondeselect.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
     buttonaddma.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
-    buttonedit.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
     buttondelete.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
     buttontops.pack(padx=10, ipadx=24, ipady=8, side=ttk.LEFT)
      
@@ -572,12 +571,31 @@ def create_ps1_file():
     except AttributeError:
         pass
     
-def add_user(): 
+def edit_user():
+    global index_list
     
-    new_window = fa.add_user_gui(Sign_Page)
+    def check_index_list(lst):
+        if len(lst) == 0: print("ADD") #fa.add_user_gui()
+        elif len(lst) == 1: print("EDIT")
+        elif len(lst) >= 2: 
+            mb.showinfo(title="Error", message="Zuviel ausgewählt")
+            deselected()
+        else: "Unknown Shit"
+        
+        return lst
+        
+    try:
+        check_index_list(index_list)
+        #create_table(Sign_Page(maingui.self, maingui.self))
+        
+        #controller.frames[PageOne].add_data() # update the other page
+        #controller.show_frame(PageOne)
+    except UnboundLocalError: pass
+
+def del_user(frame):
     
-
-def edit_user(): pass
-
-
-def del_user(): pass
+    for x in index_list:
+        fa.del_user(x)
+      
+    #tab_frame.forget()
+    #create_table(frame)

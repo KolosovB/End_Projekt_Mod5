@@ -6,6 +6,8 @@ import Conf_SQL as fcon
 import Gui_Windows as gw
 
 class add_user_gui(ttk.Toplevel):
+
+    
     """
     Subclass von Toplevel - Neu Mitarbeiter Hinzufügen
     Erstellt ein Fenster mit eingaben möglichkeiten
@@ -370,3 +372,51 @@ class add_user_gui(ttk.Toplevel):
         
         but_send = ttk.Button(self, text = "Anlegen", command=send_an_db)
         but_send.place(x = 30, y = 650)
+        
+
+
+def del_user(x):
+    """
+    Funktion Mitarbeiter Löschen
+    """
+    
+    if fcon.myDBcon:
+        mycursor = fcon.myDBcon.cursor()
+
+        target = x
+        
+        mitarbeiter_id = gw.lists[3][target-1][0]
+        adresse_id = gw.lists[3][target-1][4]
+        arbeits_vertrag_id = gw.lists[3][target-1][9]
+        del_adresse = "DELETE FROM mitarbeiter_adr WHERE Adresse_ID = " + str(adresse_id)
+        del_vertrag = "DELETE FROM Arbeitsvertrag WHERE Arbeitsvertrag_ID = " + str(arbeits_vertrag_id)
+        del_mitarbeiter = "DELETE FROM Mitarbeiter WHERE Mitarbeiter_ID = " + str(mitarbeiter_id)
+        # # # Delete Record aus Mitarbeiter Tabelle
+        try:
+            # Execute the SQL command
+            mycursor.execute(del_mitarbeiter)
+            # Commit your changes in the database
+            fcon.myDBcon.commit()
+        except:
+            # Roll back in case there is any error
+            fcon.myDBcon.rollback()
+            # Delete Record aus Adresse Tabelle
+        try:
+            # Execute the SQL command
+            mycursor.execute(del_adresse)
+            # Commit your changes in the database
+            fcon.myDBcon.commit()
+        except:
+            # Roll back in case there is any error
+            fcon.myDBcon.rollback()
+            # Delete Record aus Login Tabelle
+        try:
+            # Execute the SQL command
+            mycursor.execute(del_vertrag)
+            # Commit your changes in the database
+            fcon.myDBcon.commit()
+        except:
+            # Roll back in case there is any error
+            fcon.myDBcon.rollback()
+
+    else: print("Kann nicht ohne DB Konnektion.")
