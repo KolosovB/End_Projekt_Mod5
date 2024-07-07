@@ -412,7 +412,6 @@ def del_user(lst):
                     except:
                         # Roll back in case there is any error
                         fcon.myDBcon.rollback()
-                        # Delete Record aus Adresse Tabelle
                     
                     try:
                         # Execute the SQL command
@@ -422,8 +421,6 @@ def del_user(lst):
                     except:
                         # Roll back in case there is any error
                         fcon.myDBcon.rollback()
-                        print("A Trubble")
-                        # Delete Record aus Login Tabelle
                         
                     try:
                         # Execute the SQL command
@@ -433,9 +430,6 @@ def del_user(lst):
                     except:
                         # Roll back in case there is any error
                         fcon.myDBcon.rollback()
-                        print("V Trubble")
-
-
 
                 else: print("Kann nicht ohne DB Konnektion.")
     
