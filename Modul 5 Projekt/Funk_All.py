@@ -375,51 +375,69 @@ class add_user_gui(ttk.Toplevel):
         
 
 
-def del_user(x):
+def del_user(lst):
     """
     Funktion Mitarbeiter Löschen
     """
     
-    if fcon.myDBcon:
-        mycursor = fcon.myDBcon.cursor()
+    l = lst
 
-        target = x
-        
-        mitarbeiter_id = gw.lists[3][target-1][0]
-        adresse_id = gw.lists[3][target-1][4]
-        arbeits_vertrag_id = gw.lists[3][target-1][9]
-        del_adresse = "DELETE FROM mitarbeiter_adr WHERE Adresse_ID = " + str(adresse_id)
-        del_vertrag = "DELETE FROM Arbeitsvertrag WHERE Arbeitsvertrag_ID = " + str(arbeits_vertrag_id)
-        del_mitarbeiter = "DELETE FROM Mitarbeiter WHERE Mitarbeiter_ID = " + str(mitarbeiter_id)
-        # # # Delete Record aus Mitarbeiter Tabelle
-        try:
-            # Execute the SQL command
-            mycursor.execute(del_mitarbeiter)
-            # Commit your changes in the database
-            fcon.myDBcon.commit()
-        except:
-            # Roll back in case there is any error
-            fcon.myDBcon.rollback()
-            # Delete Record aus Adresse Tabelle
-        try:
-            # Execute the SQL command
-            mycursor.execute(del_adresse)
-            # Commit your changes in the database
-            fcon.myDBcon.commit()
-        except:
-            # Roll back in case there is any error
-            fcon.myDBcon.rollback()
-            # Delete Record aus Login Tabelle
-        try:
-            # Execute the SQL command
-            mycursor.execute(del_vertrag)
-            # Commit your changes in the database
-            fcon.myDBcon.commit()
-        except:
-            # Roll back in case there is any error
-            fcon.myDBcon.rollback()
+    for x in l:
+        print(gw.lists[3])
+        print(l)
+        for y in range(len(gw.lists[3])):
+            if x == gw.lists[3][y][0]: 
+                print("x = " + str(x))
+                mitarbeiter_id = gw.lists[3][y][0]
+                print("MaID = " + str(mitarbeiter_id))
+                adresse_id = (gw.lists[3][mitarbeiter_id][4])-1
+                vertrag_id = (gw.lists[3][mitarbeiter_id][9])-1
 
-    else: print("Kann nicht ohne DB Konnektion.")
+                if fcon.myDBcon:
+                    mycursor = fcon.myDBcon.cursor()
+
+                    del_adresse = "DELETE FROM mitarbeiter_adr WHERE ma_ad_id = " + str(adresse_id)
+                    print(del_adresse)
+                    del_vertrag = "DELETE FROM vertrag WHERE vertrag_id = " + str(vertrag_id)
+                    print(del_vertrag)
+                    del_mitarbeiter = "DELETE FROM Mitarbeiter WHERE mitarbeiter_id = " + str(mitarbeiter_id)
+                    print(del_mitarbeiter)
+                
+                    # # # Delete Record aus Mitarbeiter Tabelle
+                    try:
+                        # Execute the SQL command
+                        mycursor.execute(del_mitarbeiter)
+                        # Commit your changes in the database
+                        fcon.myDBcon.commit()
+                    except:
+                        # Roll back in case there is any error
+                        fcon.myDBcon.rollback()
+                        # Delete Record aus Adresse Tabelle
+                    
+                    try:
+                        # Execute the SQL command
+                        mycursor.execute(del_adresse)
+                        # Commit your changes in the database
+                        fcon.myDBcon.commit()
+                    except:
+                        # Roll back in case there is any error
+                        fcon.myDBcon.rollback()
+                        print("A Trubble")
+                        # Delete Record aus Login Tabelle
+                        
+                    try:
+                        # Execute the SQL command
+                        mycursor.execute(del_vertrag)
+                        # Commit your changes in the database
+                        fcon.myDBcon.commit()
+                    except:
+                        # Roll back in case there is any error
+                        fcon.myDBcon.rollback()
+                        print("V Trubble")
+
+
+
+                else: print("Kann nicht ohne DB Konnektion.")
     
     gw.tab_frame.forget()
         

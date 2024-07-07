@@ -610,8 +610,4 @@ def edit_user():
 
 def del_user():
     
-    for x in index_list:
-        for y in len(lists[3]):
-            if x == lists[3][y][1]:
-                fa.del_user()
-            else: pass
+    fa.del_user(index_list)
