@@ -31,9 +31,28 @@ class add_user_gui(ttk.Toplevel):
                     user.extend(gw.lists[3][x])
                     user.extend(gw.lists[4][x])
                     user.extend(gw.lists[12][x])
+                    user.extend(gw.lists[10][x])
+                    user.extend(gw.lists[2][x])
+                    user.extend(gw.lists[11][x])
+                    user.extend(gw.lists[6][(gw.lists[3][x][8])-1])
+                    user.extend(gw.lists[14][(gw.lists[9][x][1])-1])
+                    user.extend(gw.lists[5][(gw.lists[9][x][2])-1])
+                    if gw.lists[9][x][3] != None:
+                        user.extend(gw.lists[8][(gw.lists[9][x][3])-1])
+                    else: 
+                        user.append("-")
+                        user.append("-")
+                    
                     print(user)
         else:
-            for x in range(25): user.append("None")
+            for x in range(41): 
+                if x == 16: user.append(1)
+                elif x == 17: user.append(1)
+                elif x == 20: user.append(1)
+                elif x == 21: user.append(1)
+                elif x == 30: user.append(1)
+                else:
+                    user.append("None")
 
         
         def somewehere(x):
@@ -44,27 +63,27 @@ class add_user_gui(ttk.Toplevel):
         
         def abteilung_ausgeben(event):
             global abteilung
-            abteilung = ein_ten.get()
+            abteilung = ein_09.get()
             return abteilung
     
         def position_ausgeben(event):
             global position
-            position = ein_elf.get()
+            position = ein_10.get()
             return position
 
         def vertrag_ausgeben(event):
             global vertrag
-            vertrag = ein_zwo.get()
+            vertrag = ein_11.get()
             return vertrag
     
         def beschaf_ausgeben(event):
             global beschaf
-            beschaf = ein_dre.get()
+            beschaf = ein_12.get()
             return beschaf
     
         def office_ausgeben(event):
             global office
-            office = ein_she.get()
+            office = ein_18.get()
             return office
             
         def email_value(event):
@@ -76,46 +95,60 @@ class add_user_gui(ttk.Toplevel):
                 lb_lk.config(text = email)
                 return email
             
-        # def condate(test):
-        #     """
-        #     Konvertiere Date in DB Format
-        #     """
-        #     import datetime
+        def condate(test):
+             """
+             Konvertiere Date in DB Format
+             """
+             import datetime
 
-        #     def conv_date(test, x):
-        #         test = test.split(x)
-        #         date = datetime.datetime(int(test[2]), int(test[1]), int(test[0]))
-        #         return date
+             def conv_date(test, x):
+                 test = test.split(x)
+                 date = datetime.datetime(int(test[2]), int(test[1]), int(test[0]))
+                 return date
 
-        #     if len(test.split(",")) > 2 : d = conv_date(test, ",")
-        #     elif len(test.split(".")) > 2: d = conv_date(test, ".")
-        #     elif len(test.split("/")) > 2: d = conv_date(test, "/")
-        #     else: d = None
+             if type(test) is not datetime.date:
+                 if len(test.split(",")) > 2 : d = conv_date(test, ",")
+                 elif len(test.split(".")) > 2: d = conv_date(test, ".")
+                 elif len(test.split("/")) > 2: d = conv_date(test, "/")
+                 else: d = None
+             else: d = None
+             
+             if flag == True and d == None:
+                 d = test
+             elif flag == False and d == None:
+                 d = "-"
 
-        #     return d
-            
-        # def samle_all():
-        #     """
-        #     all_in_one :
-        #     #vorname = [0]
-        #     #nachname = [1]
-        #     #geburt = [2]
-        #     #telefon = [3]
-        #     #strasse = [4]
-        #     #hausnr = [5]
-        #     #plz = [6]
-        #     #ort = [7]
-        #     #abteilung_id = [8]
-        #     #position_id = [9]
-        #     #vertrag_id = [10]
-        #     #beschaf_id = [11]
-        #     #rolle_id = [12]
-        #     #email = [13]
-        #     #passwort = [14]
-        #     #gehalt = [15]
-        #     #vertragsbeginn = [16]
-        #     #vertragsende = [17]
-        #     """
+             return d
+        
+        # def conv_date_new():
+        #     if v_lst[1][0] == "0000": end_date = "- kein -"
+        #     else: end_date = dt.date(int(v_lst[1][0]), int(v_lst[1][1]), int(v_lst[1][2]))
+        #     return end_date  
+    
+        def samle_all():
+
+             """
+             all_in_one :
+             #vorname = [0]
+             #nachname = [1]
+             #geburt = [2]
+             #telefon = [3]
+             #strasse = [4]
+             #hausnr = [5]
+             #plz = [6]
+             #ort = [7]
+             #abteilung_id = [8]
+             #position_id = [9]
+             #vertrag_id = [10]
+             #beschaf_id = [11]
+             #rolle_id = [12]
+             #email = [13]
+             #passwort = [14]
+             #gehalt = [15]
+             #vertragsbeginn = [16]
+             #vertragsende = [17]
+             """
+             pass
         #     all_in_one = []
         #     all_in_one.append(ein_uno.get())
         #     all_in_one.append(ein_duo.get())
@@ -185,10 +218,10 @@ class add_user_gui(ttk.Toplevel):
         office_liste = somewehere(6)
             
         vertrag_liste = []
-        vertrag_liste = somewehere(1)
+        vertrag_liste = somewehere(13)
 
         beschaf_liste = []
-        beschaf_liste = somewehere(13)
+        beschaf_liste = somewehere(1)
         
         abteilung_liste = []
         abteilung_liste = somewehere(0)
@@ -206,113 +239,131 @@ class add_user_gui(ttk.Toplevel):
         title_label.place(x = 30, y = 20)
 
         # Erstellen der Labels für die Mitarbeiterinformationen
-        fields = ["Vorname:", "Nachname:", "Geburtstag:", "Telefonnummer:", "Straße:", "Hausnummer:", "PLZ:", "Ort:", "Abteilung:", "Position:", "Vertragsart:", "Beschäftigung:", "Vertragsbeginn:", "Vertragsende:", "Email:", "Gehalt:", "Urlaub:", "Office"]
+        fields = ["Vorname:", "Nachname:", "Geburtstag:", "Telefonnummer:", "Straße:", "Hausnummer:", "PLZ:", "Ort:", "Abteilung:", "Position:", "Vertragsart:", "Arbeitszeit:", "Vertragsbeginn:", "Vertragsende:", "Email:", "Gehalt:", "Urlaub:", "Office", "Windows", "MS Office", "Power BI"]
 
-        label_uno = ttk.Label(self, text=fields[0], font = "Verdana 8 bold")
-        label_duo = ttk.Label(self, text=fields[1], font = "Verdana 8 bold")
-        label_tre = ttk.Label(self, text=fields[2], font = "Verdana 8 bold")
-        label_qwa = ttk.Label(self, text=fields[3], font = "Verdana 8 bold")
-        label_qwi = ttk.Label(self, text=fields[4], font = "Verdana 8 bold")
-        label_sex = ttk.Label(self, text=fields[5], font = "Verdana 8 bold")
-        label_che = ttk.Label(self, text=fields[6], font = "Verdana 8 bold")
-        label_nen = ttk.Label(self, text=fields[7], font = "Verdana 8 bold")
-        label_ten = ttk.Label(self, text=fields[8], font = "Verdana 8 bold")
-        label_elf = ttk.Label(self, text=fields[9], font = "Verdana 8 bold")
-        label_zwo = ttk.Label(self, text=fields[10], font = "Verdana 8 bold")
-        label_dre = ttk.Label(self, text=fields[11], font = "Verdana 8 bold")
-        label_vie = ttk.Label(self, text=fields[12], font = "Verdana 8 bold")
-        label_fun = ttk.Label(self, text=fields[13], font = "Verdana 8 bold")
-        label_she = ttk.Label(self, text=fields[14], font = "Verdana 8 bold")
-        label_sib = ttk.Label(self, text=fields[15], font = "Verdana 8 bold")
-        label_akt = ttk.Label(self, text=fields[16], font = "Verdana 8 bold")
-        label_non = ttk.Label(self, text=fields[17], font = "Verdana 8 bold")
+        label_01 = ttk.Label(self, text=fields[0], font = "Verdana 8 bold")
+        label_02 = ttk.Label(self, text=fields[1], font = "Verdana 8 bold")
+        label_03 = ttk.Label(self, text=fields[2], font = "Verdana 8 bold")
+        label_04 = ttk.Label(self, text=fields[3], font = "Verdana 8 bold")
+        label_05 = ttk.Label(self, text=fields[4], font = "Verdana 8 bold")
+        label_06 = ttk.Label(self, text=fields[5], font = "Verdana 8 bold")
+        label_07 = ttk.Label(self, text=fields[6], font = "Verdana 8 bold")
+        label_08 = ttk.Label(self, text=fields[7], font = "Verdana 8 bold")
+        label_09 = ttk.Label(self, text=fields[8], font = "Verdana 8 bold")
+        label_10 = ttk.Label(self, text=fields[9], font = "Verdana 8 bold")
+        label_11 = ttk.Label(self, text=fields[10], font = "Verdana 8 bold")
+        label_12 = ttk.Label(self, text=fields[11], font = "Verdana 8 bold")
+        label_13 = ttk.Label(self, text=fields[12], font = "Verdana 8 bold")
+        label_14 = ttk.Label(self, text=fields[13], font = "Verdana 8 bold")
+        label_15 = ttk.Label(self, text=fields[14], font = "Verdana 8 bold")
+        label_16 = ttk.Label(self, text=fields[15], font = "Verdana 8 bold")
+        label_17 = ttk.Label(self, text=fields[16], font = "Verdana 8 bold")
+        label_18 = ttk.Label(self, text=fields[17], font = "Verdana 8 bold")
+        label_19 = ttk.Label(self, text=fields[18], font = "Verdana 8 bold")
+        label_20 = ttk.Label(self, text=fields[19], font = "Verdana 8 bold")
+        label_21 = ttk.Label(self, text=fields[20], font = "Verdana 8 bold")
         
-        label_uno.place(x = 30, y = 50)
-        label_duo.place(x = 250, y = 50)
-        label_tre.place(x = 30, y = 100)
-        label_qwa.place(x = 250, y = 100)
-        label_qwi.place(x = 30, y = 150)
-        label_sex.place(x = 250, y = 150)
-        label_che.place(x = 30, y = 200)
-        label_nen.place(x = 250, y = 200)
-        label_ten.place(x = 30, y = 250)
-        label_elf.place(x = 250, y = 250)
-        label_zwo.place(x = 30, y = 300)
-        label_dre.place(x = 250, y = 300)
-        label_vie.place(x = 30, y = 350)
-        label_fun.place(x = 250, y = 350)
-        label_she.place(x = 30, y = 400)
-        label_sib.place(x = 30, y = 450)
-        label_akt.place(x = 30, y = 500)
-        label_non.place(x = 30, y = 550)
+        ### 50, 120, 190, 260, 330, 400, 470, 540
 
-        ein_uno = gw.WPEntry(self, user[1])
-        ein_duo = gw.WPEntry(self, user[2])
-        ein_tre = gw.WPEntry(self, user[3])
-        ein_qwa = gw.WPEntry(self, user[4])
-        ein_qwi = gw.WPEntry(self, user[5])
-        ein_sex = gw.WPEntry(self, user[6])
-        ein_che = gw.WPEntry(self, user[1])
-        ein_nen = gw.WPEntry(self, user[2])
+        label_01.place(x = 30, y = 50)
+        label_02.place(x = 230, y = 50)
+        label_03.place(x = 430, y = 50)
+        label_04.place(x = 630, y = 50)
+        label_05.place(x = 30, y = 120)
+        label_06.place(x = 230, y = 120)
+        label_07.place(x = 430, y = 120)
+        label_08.place(x = 630, y = 120)
+        label_09.place(x = 30, y = 190)
+        label_10.place(x = 230, y = 190)
+        label_11.place(x = 430, y = 190)
+        label_12.place(x = 630, y = 190)
+        label_13.place(x = 30, y = 260)
+        label_14.place(x = 230, y = 260)
+        label_15.place(x = 430, y = 260)
+        label_16.place(x = 30, y = 330)
+        label_17.place(x = 230, y = 330)
+        label_18.place(x = 430, y = 330)
+        label_19.place(x = 30, y = 400)
+        label_20.place(x = 30, y = 470)
+        label_21.place(x = 30, y = 540)
 
-        ein_ten = ttk.Combobox(self, value = abteilung_liste)
-        ein_ten.current(user[3])
-        ein_ten.config(state="readonly")
-        ein_ten.bind("<<ComboboxSelected>>", abteilung_ausgeben)
+        ein_01 = gw.WPEntry(self, user[1])
+        ein_02 = gw.WPEntry(self, user[2])
+        ein_03 = gw.WPEntry(self, user[3])
+        ein_04 = gw.WPEntry(self, user[25])
+        ein_05 = gw.WPEntry(self, user[11])
+        ein_06 = gw.WPEntry(self, user[12])
+        ein_07 = gw.WPEntry(self, user[14])
+        ein_08 = gw.WPEntry(self, user[13])
 
-        ein_elf = ttk.Combobox(self, value = position_liste)
-        ein_elf.current(user[4])
-        ein_elf.config(state="readonly")
-        ein_elf.bind("<<ComboboxSelected>>", position_ausgeben)
+        ein_09 = ttk.Combobox(self, value = abteilung_liste)
+        ein_09.current(user[16]-1)
+        ein_09.config(state="readonly")
+        ein_09.bind("<<ComboboxSelected>>", abteilung_ausgeben)
 
-        ein_zwo = ttk.Combobox(self, value = vertrag_liste)
-        ein_zwo.current(user[5])
-        ein_zwo.config(state="readonly")
-        ein_zwo.bind("<<ComboboxSelected>>", vertrag_ausgeben)
+        ein_10 = ttk.Combobox(self, value = position_liste)
+        ein_10.current(user[17]-1)
+        ein_10.config(state="readonly")
+        ein_10.bind("<<ComboboxSelected>>", position_ausgeben)
 
-        ein_dre = ttk.Combobox(self, value = beschaf_liste)
-        ein_dre.current(user[6])
-        ein_dre.config(state="readonly")
-        ein_dre.bind("<<ComboboxSelected>>", beschaf_ausgeben)
+        ein_11 = ttk.Combobox(self, value = vertrag_liste)
+        ein_11.current(user[21]-1)
+        ein_11.config(state="readonly")
+        ein_11.bind("<<ComboboxSelected>>", vertrag_ausgeben)
 
-        ein_vie = gw.WPEntry(self, dt.date(int(user[1]), int(user[1]), int(user[1])))
-        end_date = (user[6])
-        ein_fun = gw.WPEntry(self, end_date)
+        ein_12 = ttk.Combobox(self, value = beschaf_liste)
+        ein_12.current(user[20]-1)
+        ein_12.config(state="readonly")
+        ein_12.bind("<<ComboboxSelected>>", beschaf_ausgeben)
 
-        # Tashemto Email?
-        ein_she = ttk.Combobox(self, value = office_liste)
-        ein_she.current(0)
-        ein_she.config(state="readonly")
-        ein_she.bind("<<ComboboxSelected>>", office_ausgeben)
+        ein_13 = gw.WPEntry(self, user[18])
+        end_date = condate(user[19])
+        ein_14 = gw.WPEntry(self, end_date)
 
-        ein_akt = ttk.Entry(self)
-        ein_non = gw.WPEntry(self, user[6])
+        ein_15 = gw.WPEntry(self, user[6])
+        ein_16 = gw.WPEntry(self, user[27])
+        ein_17 = gw.WPEntry(self, user[29])
+        
+        ein_18 = ttk.Combobox(self, value = office_liste)
+        ein_18.current(user[30]-1)
+        ein_18.config(state="readonly")
+        ein_18.bind("<<ComboboxSelected>>", office_ausgeben)
 
-        ein_uno.place(x = 30, y = 70)
-        ein_duo.place(x = 250, y = 70)
-        ein_tre.place(x = 30, y = 120)
-        ein_qwa.place(x = 250, y = 120)
-        ein_qwi.place(x = 30, y = 170)
-        ein_sex.place(x = 250, y = 170)
-        ein_che.place(x = 30, y = 220)
-        ein_nen.place(x = 250, y = 220)
-        ein_ten.place(x = 30, y = 270)
-        ein_elf.place(x = 250, y = 270)
-        ein_zwo.place(x = 30, y = 320)
-        ein_dre.place(x = 250, y = 320)
-        ein_vie.place(x = 30, y = 370)
-        ein_fun.place(x = 250, y = 370)
-        ein_she.place(x = 30, y = 420)
-        ein_akt.place(x = 30, y = 520)
-        ein_non.place(x = 30, y = 570)
+        ein_19 = gw.WPEntry(self, user[36])
+        ein_20 = gw.WPEntry(self, user[38])
+        ein_21 = gw.WPEntry(self, user[40])
+
+        ### 70, 140, 210, 280, 350
+
+        ein_01.place(x = 30, y = 70)
+        ein_02.place(x = 230, y = 70)
+        ein_03.place(x = 430, y = 70)
+        ein_04.place(x = 630, y = 70)
+        ein_05.place(x = 30, y = 140)
+        ein_06.place(x = 230, y = 140)
+        ein_07.place(x = 430, y = 140)
+        ein_08.place(x = 630, y = 140)
+        ein_09.place(x = 30, y = 210)
+        ein_10.place(x = 230, y = 210)
+        ein_11.place(x = 430, y = 210)
+        ein_12.place(x = 630, y = 210)
+        ein_13.place(x = 30, y = 280)
+        ein_14.place(x = 230, y = 280)
+        ein_15.place(x = 430, y = 280, width=340)
+        ein_16.place(x = 30, y = 350)
+        ein_17.place(x = 230, y = 350)
+        ein_18.place(x = 430, y = 350, width=340)
+        ein_19.place(x = 30, y = 420, width=340)
+        ein_20.place(x = 30, y = 490, width=340)
+        ein_21.place(x = 30, y = 560, width=340)
         
         lb_lk = ttk.Label(self, text = "")
         lb_lk.place(x = 30, y = 470)
-        ein_duo.bind('<Return>', email_value)
+        #ein_duo.bind('<Return>', email_value)
         #ein_akt.bind('<Return>', pass_check)
         
         but_send = ttk.Button(self, text = "Anlegen", command=fcon.send_an_db)
-        but_send.place(x = 30, y = 650, width=120, height=40)
+        but_send.place(x = 30, y = 610, width=120, height=40)
         
 
 
