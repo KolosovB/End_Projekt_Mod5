@@ -42,8 +42,7 @@ class add_user_gui(ttk.Toplevel):
                     else: 
                         user.append("-")
                         user.append("-")
-                    
-                    print(user)
+
         else:
             for x in range(41): 
                 if x == 16: user.append(1)
