@@ -1,6 +1,9 @@
 import sys
 IOError is OSError
 import pyodbc as dbcon
+import Funk_All as fa
+import tkinter as tk
+from tkinter import filedialog, messagebox as mb
 
 global conf_name
 conf_name = "conf.ini"
@@ -72,12 +75,12 @@ def connect_to_datebank():
 
     return myDBcon
 
-def send_an_db(): pass
-    # def send_an_db():
-
-    #     all_for_send = samle_all()
-    #     check_bereitschaft = mb.askyesno(title="Bereitschaft", message="Sind Sie sicher?", parent=self)
-    #     if check_bereitschaft and all_for_send:
+def send_an_db(lst):
+    
+    print(lst)
+    
+    #check_bereitschaft = mb.askyesno(title="Bereitschaft", message="Sind Sie sicher?", parent=self)
+    #if check_bereitschaft and all_for_send:
                  
     #         # Get Last Mitarbeiter_ID
     #         get_last_ma_id = "SELECT * FROM `mitarbeiter` ORDER BY mitarbeiter.Mitarbeiter_ID DESC LIMIT 1;"

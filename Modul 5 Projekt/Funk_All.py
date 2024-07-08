@@ -97,124 +97,134 @@ class add_user_gui(ttk.Toplevel):
                 ein_15.place(x = 430, y = 280, width=340)
                 return email
             
-        def condate(test):
+        def condate(t):
              """
              Konvertiere Date in DB Format
              """
              import datetime
 
-             def conv_date(test, x):
-                 test = test.split(x)
-                 date = datetime.datetime(int(test[2]), int(test[1]), int(test[0]))
+             def conv_date(t, x):
+                 t = t.split(x)
+                 date = datetime.datetime(int(t[2]), int(t[1]), int(t[0]))
                  return date
 
-             if type(test) is not datetime.date:
-                 if len(test.split(",")) > 2 : d = conv_date(test, ",")
-                 elif len(test.split(".")) > 2: d = conv_date(test, ".")
-                 elif len(test.split("/")) > 2: d = conv_date(test, "/")
+             if type(t) is not datetime.date:
+                 if len(t.split(",")) > 2 : d = conv_date(t, ",")
+                 elif len(t.split(".")) > 2: d = conv_date(t, ".")
+                 elif len(t.split("/")) > 2: d = conv_date(t, "/")
                  else: d = None
              else: d = None
              
              if flag == True and d == None:
-                 d = test
+                 d = t
              elif flag == False and d == None:
                  d = "-"
 
              return d
         
-        # def conv_date_new():
-        #     if v_lst[1][0] == "0000": end_date = "- kein -"
-        #     else: end_date = dt.date(int(v_lst[1][0]), int(v_lst[1][1]), int(v_lst[1][2]))
-        #     return end_date  
-    
         def samle_all():
 
-             """
-             all_in_one :
-             #vorname = [0]
-             #nachname = [1]
-             #geburt = [2]
-             #telefon = [3]
-             #strasse = [4]
-             #hausnr = [5]
-             #plz = [6]
-             #ort = [7]
-             #abteilung_id = [8]
-             #position_id = [9]
-             #vertrag_id = [10]
-             #beschaf_id = [11]
-             #rolle_id = [12]
-             #email = [13]
-             #passwort = [14]
-             #gehalt = [15]
-             #vertragsbeginn = [16]
-             #vertragsende = [17]
-             """
-             pass
-        #     all_in_one = []
-        #     all_in_one.append(ein_uno.get())
-        #     all_in_one.append(ein_duo.get())
-            
-        #     # Umwandle Datum
-        #     test = ein_tre.get()
-        #     bdate = condate(test)
-        #     all_in_one.append(bdate)
-            
-        #     #all_in_one.append()
-        #     all_in_one.append(ein_qwa.get())
-            
-        #     all_in_one.append(ein_qwi.get())
-        #     all_in_one.append(ein_sex.get())
-        #     all_in_one.append(ein_che.get())
-        #     all_in_one.append(ein_nen.get())
+            """
+            all_in_one :
+            Vorname -0
+            Nachname -1
+            Geburtstag -2 
+            Telefonnummer -3
+            Straße -4
+            Hausnummer -5
+            PLZ -6
+            Ort -7
+            Abteilung -8 
+            Position -9 (Besh)
+            Vertragsart -10
+            Arbeitszeit -11
+            Vertragsbeginn -12
+            Vertragsende -13
+            Email -14
+            Gehalt -15
+            Urlaub -16
+            Office -17
+            Windows -18
+            MS Office -19
+            Power BI -20
+            """
 
-        #     # Get Abteilung_ID
-        #     get_abt = "SELECT Abteilung_ID FROM abteilung WHERE Abteilung_name = '" + abteilung + "';"
-        #     mycursor.execute(get_abt)
-        #     abteilung_id = mycursor.fetchone()
-        #     all_in_one.append(abteilung_id)
-            
-        #     # Get Position_ID
-        #     get_pos = "SELECT `Position_ID` FROM `position` WHERE `Position_name` = '" + position + "';"
-        #     mycursor.execute(get_pos)
-        #     position_id = mycursor.fetchone()
-        #     all_in_one.append(position_id)
-            
-        #     # Get Vertrag_ID
-        #     get_ver = "SELECT `Vertragsart_ID` FROM `vertragsart` WHERE `Vertragsart_name` = '" + vertrag + "';"
-        #     mycursor.execute(get_ver)
-        #     vertrag_id = mycursor.fetchone()
-        #     all_in_one.append(vertrag_id)
-            
-        #     # Get Beschäftigung_ID
-        #     get_bes = "SELECT `Beschäftigung_ID` FROM `beschäftigung` WHERE `Beschäftigung_name` = '" + beschaf + "';"
-        #     mycursor.execute(get_bes)
-        #     beschaf_id = mycursor.fetchone()
-        #     all_in_one.append(beschaf_id)
-            
-        #     # Get Rolle
-        #     get_roll = "SELECT `Kontotype_ID` FROM `kontotype` WHERE `Kontotype_name` = '" + rolle + "';"
-        #     mycursor.execute(get_roll)
-        #     rolle_id = mycursor.fetchone()
-        #     all_in_one.append(rolle_id)
-            
-        #     all_in_one.append(email)
-        #     all_in_one.append(new_pass)
+            all_in_one = []
 
-        #     all_in_one.append(ein_non.get())
+            all_in_one.append(ein_01.get())
+            all_in_one.append(ein_02.get())
             
-        #     test2 = ein_vie.get()
-        #     vdate = condate(test2)
-        #     all_in_one.append(vdate)
-        #     test3 = ein_fun.get()
-        #     edate = condate(test3)
-        #     all_in_one.append(edate)
+            # Umwandle Datum
+            t1 = ein_03.get()
+            bdate = condate(t1)
+            all_in_one.append(bdate)
 
-        #     return all_in_one
+            all_in_one.append(ein_04.get())
+            
+            all_in_one.append(ein_05.get())
+            all_in_one.append(ein_06.get())
+            all_in_one.append(ein_07.get())
+            all_in_one.append(ein_08.get())
 
-        # new_lists = []
-        # new_lists = gw.lists
-        # print(new_lists)
+            # Get Abteilung_ID
+            try:
+                for c in range(len(gw.lists[0])):
+                    if gw.lists[0][c][1] == abteilung:
+                        abteilung_id = gw.lists[0][c][0]
+            except NameError: abteilung_id = user[16]-1
+            all_in_one.append(abteilung_id)
+            
+            # Get Position_ID
+            try:
+                for c in range(len(gw.lists[7])):
+                    if gw.lists[7][c][1] == position:
+                        position_id = gw.lists[7][c][0]
+            except NameError: position_id = user[17]-1
+            all_in_one.append(position_id)
+            
+            # Get Vertrag_ID
+            try:
+                for c in range(len(gw.lists[13])):
+                    if gw.lists[13][c][1] == vertrag:
+                        vertrag_id = gw.lists[13][c][0]
+            except NameError: vertrag_id = user[21]-1
+            all_in_one.append(vertrag_id)
+            
+            # Get Beschäftigung_ID 12
+            try:
+                for c in range(len(gw.lists[1])):
+                    if gw.lists[1][c][1] == beschaf:
+                        beschaf_id = gw.lists[1][c][0]
+            except NameError: beschaf_id = user[20]-1
+            all_in_one.append(beschaf_id)
+            
+            t2 = ein_13.get()
+            vdate = condate(t2)
+            all_in_one.append(vdate)
+
+            t3 = ein_14.get()
+            edate = condate(t3)
+            all_in_one.append(edate)
+            
+            try:
+                all_in_one.append(email)
+            except NameError: all_in_one.append(ein_15.get())
+            all_in_one.append(ein_16.get())
+            all_in_one.append(ein_17.get())
+
+            # Get Office 18
+            try:
+                for c in range(len(gw.lists[6])):
+                    if gw.lists[6][c][1] == office:
+                        office_id = gw.lists[6][c][0]
+            except NameError: office_id = user[30]-1
+            all_in_one.append(office_id)
+            
+            all_in_one.append(ein_19.get())
+            all_in_one.append(ein_20.get())
+            all_in_one.append(ein_21.get())
+            
+            fcon.send_an_db(all_in_one)
 
         office_liste = []
         office_liste = somewehere(6)
@@ -364,7 +374,7 @@ class add_user_gui(ttk.Toplevel):
         lb_lk.place(x = 30, y = 470)
         ein_02.bind('<Return>', email_value)
         
-        but_send = ttk.Button(self, text = "Anlegen", command=fcon.send_an_db)
+        but_send = ttk.Button(self, text = "Anlegen", command=samle_all)
         but_send.place(x = 30, y = 610, width=120, height=40)
         
 
