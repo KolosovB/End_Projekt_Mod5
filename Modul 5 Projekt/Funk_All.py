@@ -4,24 +4,43 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import Conf_SQL as fcon
 import Gui_Windows as gw
+import datetime as dt
+from datetime import datetime, timedelta
 
 class add_user_gui(ttk.Toplevel):
-
-    
     """
-    Subclass von Toplevel - Neu Mitarbeiter Hinzufügen
+    Subclass von Toplevel - Neu Mitarbeiter Hinzufügen oder Alte Editieren
     Erstellt ein Fenster mit eingaben möglichkeiten
     """
- 
-    def __init__(self, master):
+    global flag, user
+    flag = False
 
-        # def way_to_somewehere(tab):
-        #     way_to_temp = "SELECT * FROM " + str(tab)
-        #     mycursor.execute(way_to_temp)
-        #     some = []
-        #     for line in mycursor:
-        #         some.append(line[1])
-        #     return some
+    def __init__(self, lst):
+        
+        self.lst = lst
+        
+        global flag, user
+        
+        user = []
+        
+        if len(self.lst) > 0:
+            flag = True
+            
+            for x in range(len(gw.lists[3])):
+                if lst[0] == gw.lists[3][x][0]: 
+                    user.extend(gw.lists[3][x])
+                    user.extend(gw.lists[4][x])
+                    user.extend(gw.lists[12][x])
+                    print(user)
+        else:
+            for x in range(25): user.append("None")
+
+        
+        def somewehere(x):
+             some = []
+             for line in gw.lists[x]:
+                 some.append(line[1])
+             return some
         
         def abteilung_ausgeben(event):
             global abteilung
@@ -43,10 +62,10 @@ class add_user_gui(ttk.Toplevel):
             beschaf = ein_dre.get()
             return beschaf
     
-        def rolle_ausgeben(event):
-            global rolle
-            rolle = ein_she.get()
-            return rolle
+        def office_ausgeben(event):
+            global office
+            office = ein_she.get()
+            return office
             
         def email_value(event):
             if ein_uno.get() != "" and ein_duo.get() != "":
@@ -158,116 +177,36 @@ class add_user_gui(ttk.Toplevel):
 
         #     return all_in_one
 
-        # def send_an_db():
+        # new_lists = []
+        # new_lists = gw.lists
+        # print(new_lists)
 
-        #     all_for_send = samle_all()
-        #     check_bereitschaft = mb.askyesno(title="Bereitschaft", message="Sind Sie sicher?", parent=self)
-        #     if check_bereitschaft and all_for_send:
-                 
-        #         # Get Last Mitarbeiter_ID
-        #         get_last_ma_id = "SELECT * FROM `mitarbeiter` ORDER BY mitarbeiter.Mitarbeiter_ID DESC LIMIT 1;"
-        #         mycursor.execute(get_last_ma_id)
-        #         last_ma_id_old = mycursor.fetchone()
-                
-        #         # Send Adresse
-        #         send_adress = "INSERT INTO `Adresse` (`Straße`, `HausNr`, `Ort`, `PLZ`) VALUES ('" + str(all_for_send[4]) + "'," + str(all_for_send[5]) + ",'" + str(all_for_send[7]) + "','" + str(all_for_send[6]) + "');"
-        #         try:
-        #             # Execute the SQL command
-        #             mycursor.execute(send_adress)
-        #             # Commit your changes in the database
-        #             myDB.commit()
-        #         except:
-        #             # Roll back in case there is any error
-        #             myDB.rollback()
-        #         # Get Last Adresse_ID
-        #         get_last_id = "SELECT * FROM adresse ORDER BY `Adresse_ID` DESC LIMIT 1;"
-        #         mycursor.execute(get_last_id)
-        #         adress_id = mycursor.fetchone()
-                
-        #         # Send Arbeitsvertrag
-        #         send_vert = "INSERT INTO `arbeitsvertrag` (`Vertragsbeginn`, `Vertragsende`, `Beschäftigung_ID`, `Vertragsart_ID`, `Gehalt`) VALUES ('" + str(all_for_send[16]) + "','" + str(all_for_send[17]) + "'," + str(all_for_send[11][0]) + "," + str(all_for_send[10][0]) + "," + str(all_for_send[15]) + ");"
-        #         try:
-        #             # Execute the SQL command
-        #             mycursor.execute(send_vert)
-        #             # Commit your changes in the database
-        #             myDB.commit()
-        #         except:
-        #             # Roll back in case there is any error
-        #             myDB.rollback()
-        #         # Get Last Arbeitsvertrag_ID
-        #         get_last_id = "SELECT * FROM arbeitsvertrag ORDER BY `Arbeitsvertrag_ID` DESC LIMIT 1;"
-        #         mycursor.execute(get_last_id)
-        #         vertrag_id = mycursor.fetchone()
-                
-        #         # Send Login
-        #         send_log = "INSERT INTO `login`(`E_Mail`, `Password`) VALUES ('" + str(all_for_send[13]) + "','" + str(all_for_send[14]) + "');"
-        #         try:
-        #             # Execute the SQL command
-        #             mycursor.execute(send_log)
-        #             # Commit your changes in the database
-        #             myDB.commit()
-        #         except:
-        #             # Roll back in case there is any error
-        #             myDB.rollback()
-        #         # Get Last Arbeitsvertrag_ID
-        #         get_last_id = "SELECT * FROM login ORDER BY `Login_ID` DESC LIMIT 1;"
-        #         mycursor.execute(get_last_id)
-        #         log_id = mycursor.fetchone()
-                
-        #         # Send Login
-        #         send_mit = "INSERT INTO `mitarbeiter`(`Vorname`, `Nachname`, `Geburtsdatum`, `Telefonnummer`, `Adresse_ID`, `Login_ID`, `Kontotype_ID`, `Abteilung_ID`, `Position_ID`, `Arbeitsvertrag_ID`) VALUES ('" + str(all_for_send[0]) + "','" + str(all_for_send[1]) + "','" + str(all_for_send[2]) + "'," + str(all_for_send[3]) + "," + str(adress_id[0]) + "," + str(log_id[0]) + "," + str(all_for_send[12][0]) + "," + str(all_for_send[8][0]) + "," + str(all_for_send[9][0]) + "," + str(vertrag_id[0]) + ");"
-        #         try:
-        #             # Execute the SQL command
-        #             mycursor.execute(send_mit)
-        #             # Commit your changes in the database
-        #             myDB.commit()
-        #         except:
-        #             # Roll back in case there is any error
-        #             myDB.rollback()
-                    
-        #         # Get New Last Mitarbeiter_ID
-        #         mycursor.execute(get_last_ma_id)
-        #         last_ma_id_new = mycursor.fetchone()
-
-        #         we_mad_it = last_ma_id_old[0] < last_ma_id_new[0]
-                
-        #         if we_mad_it:
-        #             its_ok = mb.showinfo(title="Its OK", message="Its OK!", parent=self)
-        #         else: mb.showinfo(title="Trubbles", message="We Have Trubbles!", parent=self)
-                
-        #         if we_mad_it and its_ok: self.destroy()
-
-
-        new_lists = []
-        new_lists = gw.lists
-        print(new_lists)
-
-        # rollen_liste = []
-        # rollen_liste = way_to_somewehere("kontotype")
+        office_liste = []
+        office_liste = somewehere(6)
             
-        # vertrag_liste = []
-        # vertrag_liste = way_to_somewehere("vertragsart")
+        vertrag_liste = []
+        vertrag_liste = somewehere(1)
 
-        # beschaf_liste = []
-        # beschaf_liste = way_to_somewehere("beschäftigung")
+        beschaf_liste = []
+        beschaf_liste = somewehere(13)
         
-        # abteilung_liste = []
-        # abteilung_liste = way_to_somewehere("abteilung")
+        abteilung_liste = []
+        abteilung_liste = somewehere(0)
         
-        # position_liste = []
-        # position_liste = way_to_somewehere("position")
+        position_liste = []
+        position_liste = somewehere(7)
 
         self = ttk.Toplevel()
         self.title("Add New User")
         self.attributes("-topmost", "True")
-        self.geometry(f"1400x780")
+        self.geometry(f"800x680")
 
         # Erstellen des Label für die Überschrift
         title_label = ttk.Label(self, text="Neuer Mitarbeiter Information", font=("Verdana", 10, "bold"))
         title_label.place(x = 30, y = 20)
 
         # Erstellen der Labels für die Mitarbeiterinformationen
-        fields = ["Vorname:", "Nachname:", "Geburtstag:", "Telefonnummer:", "Straße:", "Hausnummer:", "PLZ:", "Ort:", "Abteilung:", "Position:", "Vertragsart:", "Beschäftigung:", "Vertragsbeginn:", "Vertragsende:", "Kontotyp:", "Email:", "Passwort:", "Gehalt:"]
+        fields = ["Vorname:", "Nachname:", "Geburtstag:", "Telefonnummer:", "Straße:", "Hausnummer:", "PLZ:", "Ort:", "Abteilung:", "Position:", "Vertragsart:", "Beschäftigung:", "Vertragsbeginn:", "Vertragsende:", "Email:", "Gehalt:", "Urlaub:", "Office"]
 
         label_uno = ttk.Label(self, text=fields[0], font = "Verdana 8 bold")
         label_duo = ttk.Label(self, text=fields[1], font = "Verdana 8 bold")
@@ -307,45 +246,47 @@ class add_user_gui(ttk.Toplevel):
         label_akt.place(x = 30, y = 500)
         label_non.place(x = 30, y = 550)
 
-        ein_uno = ttk.Entry(self)
-        ein_duo = ttk.Entry(self)
-        ein_tre = ttk.Entry(self)
-        ein_qwa = ttk.Entry(self)
-        ein_qwi = ttk.Entry(self)
-        ein_sex = ttk.Entry(self)
-        ein_che = ttk.Entry(self)
-        ein_nen = ttk.Entry(self)
+        ein_uno = gw.WPEntry(self, user[1])
+        ein_duo = gw.WPEntry(self, user[2])
+        ein_tre = gw.WPEntry(self, user[3])
+        ein_qwa = gw.WPEntry(self, user[4])
+        ein_qwi = gw.WPEntry(self, user[5])
+        ein_sex = gw.WPEntry(self, user[6])
+        ein_che = gw.WPEntry(self, user[1])
+        ein_nen = gw.WPEntry(self, user[2])
 
         ein_ten = ttk.Combobox(self, value = abteilung_liste)
-        ein_ten.current(0)
+        ein_ten.current(user[3])
         ein_ten.config(state="readonly")
         ein_ten.bind("<<ComboboxSelected>>", abteilung_ausgeben)
 
         ein_elf = ttk.Combobox(self, value = position_liste)
-        ein_elf.current(0)
+        ein_elf.current(user[4])
         ein_elf.config(state="readonly")
         ein_elf.bind("<<ComboboxSelected>>", position_ausgeben)
 
         ein_zwo = ttk.Combobox(self, value = vertrag_liste)
-        ein_zwo.current(0)
+        ein_zwo.current(user[5])
         ein_zwo.config(state="readonly")
         ein_zwo.bind("<<ComboboxSelected>>", vertrag_ausgeben)
 
         ein_dre = ttk.Combobox(self, value = beschaf_liste)
-        ein_dre.current(0)
+        ein_dre.current(user[6])
         ein_dre.config(state="readonly")
         ein_dre.bind("<<ComboboxSelected>>", beschaf_ausgeben)
 
-        ein_vie = ttk.Entry(self)
-        ein_fun = ttk.Entry(self)
+        ein_vie = gw.WPEntry(self, dt.date(int(user[1]), int(user[1]), int(user[1])))
+        end_date = (user[6])
+        ein_fun = gw.WPEntry(self, end_date)
 
-        ein_she = ttk.Combobox(self, value = rollen_liste)
+        # Tashemto Email?
+        ein_she = ttk.Combobox(self, value = office_liste)
         ein_she.current(0)
         ein_she.config(state="readonly")
-        ein_she.bind("<<ComboboxSelected>>", rolle_ausgeben)
+        ein_she.bind("<<ComboboxSelected>>", office_ausgeben)
 
         ein_akt = ttk.Entry(self)
-        ein_non = ttk.Entry(self)
+        ein_non = gw.WPEntry(self, user[6])
 
         ein_uno.place(x = 30, y = 70)
         ein_duo.place(x = 250, y = 70)
@@ -368,10 +309,10 @@ class add_user_gui(ttk.Toplevel):
         lb_lk = ttk.Label(self, text = "")
         lb_lk.place(x = 30, y = 470)
         ein_duo.bind('<Return>', email_value)
-        ein_akt.bind('<Return>', pass_check)
+        #ein_akt.bind('<Return>', pass_check)
         
-        but_send = ttk.Button(self, text = "Anlegen", command=send_an_db)
-        but_send.place(x = 30, y = 650)
+        but_send = ttk.Button(self, text = "Anlegen", command=fcon.send_an_db)
+        but_send.place(x = 30, y = 650, width=120, height=40)
         
 
 

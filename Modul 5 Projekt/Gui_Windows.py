@@ -584,8 +584,8 @@ def edit_user():
     global index_list
     
     def check_index_list(lst):
-        if len(lst) == 0: print("ADD") #fa.add_user_gui()
-        elif len(lst) == 1: print("EDIT")
+        if len(lst) < 2: 
+            fa.add_user_gui(lst)
         elif len(lst) >= 2: 
             mb.showinfo(title="Error", message="Zuviel ausgewählt")
             deselected()
@@ -595,16 +595,6 @@ def edit_user():
         
     try:
         check_index_list(index_list)
-        tab_frame.forget()
-        
-        buttonselect.forget()
-        buttondeselect.forget()
-        buttonaddma.forget()
-        buttondelete.forget()
-        buttontops.forget()
-
-        create_table()
-        load_buttons()
 
     except UnboundLocalError: pass
 
