@@ -87,12 +87,14 @@ class add_user_gui(ttk.Toplevel):
             return office
             
         def email_value(event):
-            if ein_uno.get() != "" and ein_duo.get() != "":
-                fname = ein_uno.get()
-                sname = ein_duo.get()
+            global ein_15
+            if ein_01.get() != None and ein_02.get() != None:
+                fname = ein_01.get()
+                sname = ein_02.get()
                 global email
                 email = fname.lower() + "." + sname.lower() + "@finck-maier-consulting.de"
-                lb_lk.config(text = email)
+                ein_15 = gw.WPEntry(self, email)
+                ein_15.place(x = 430, y = 280, width=340)
                 return email
             
         def condate(test):
@@ -320,6 +322,7 @@ class add_user_gui(ttk.Toplevel):
         end_date = condate(user[19])
         ein_14 = gw.WPEntry(self, end_date)
 
+        global ein_15
         ein_15 = gw.WPEntry(self, user[6])
         ein_16 = gw.WPEntry(self, user[27])
         ein_17 = gw.WPEntry(self, user[29])
@@ -359,8 +362,7 @@ class add_user_gui(ttk.Toplevel):
         
         lb_lk = ttk.Label(self, text = "")
         lb_lk.place(x = 30, y = 470)
-        #ein_duo.bind('<Return>', email_value)
-        #ein_akt.bind('<Return>', pass_check)
+        ein_02.bind('<Return>', email_value)
         
         but_send = ttk.Button(self, text = "Anlegen", command=fcon.send_an_db)
         but_send.place(x = 30, y = 610, width=120, height=40)
