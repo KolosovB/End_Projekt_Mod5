@@ -157,106 +157,86 @@ def send_an_db(all_in_one, lst):
         return free_ids
 
     def conv_date_new(d):
-        if d == "0000": end_date = dt.date('1900-01-01')
+        if d == '0000': end_date = '1900-01-01'
         else: end_date = d
         return end_date
 
     get_db_ids(free_ids)
-    print(free_ids)
-    print(all_in_one)
-    
+
     dates = []
     dates.append(conv_date_new(all_in_one[2]))
     dates.append(conv_date_new(all_in_one[12]))
     dates.append(conv_date_new(all_in_one[13]))
-    
-    send_data = ""
-    
+    s_data = []
+ 
     if fa.flag == False:
-        send_data = (f"INSERT INTO telefon (telefon_nr) VALUES\n"
-                    f"('{all_in_one[3]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO windows (win_nr) VALUES\n"
-                    f"('{all_in_one[18]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO msoffice (msoffice_nr) VALUES\n"
-                    f"('{all_in_one[19]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO power_bi (power_bi_nr) VALUES\n"
-                    f"('{all_in_one[20]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO software (win_nr_id, msoffice_nr_id, power_bi_id) VALUES\n"
-                    f"('{free_ids[8]+1}', '{free_ids[7]+1}', '{free_ids[6]+1}');\n"
-                    f"GO\n"
-                    f"INSERT INTO urlaub (urlaub_wert) VALUES\n"
-                    f"('{all_in_one[16]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO gehalt (gehalt_wert) VALUES\n"
-                    f"('{all_in_one[15]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO mitarbeiter_adr (ma_ad_str, ma_ad_hnr, ma_ad_ort, ma_ad_plz) VALUES\n"
-                    f"('{all_in_one[4]}', '{all_in_one[5]}', '{all_in_one[7]}', '{all_in_one[6]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO vertrag (abteilung_id, position_id, vertragbeginn, vertragende, arbeitszeit_id, vertragsart_id, urlaub_id, gehalt_id) VALUES\n"
-                    f"('{all_in_one[8]}', '{all_in_one[9]}', '{dates[1]}', '{dates[2]}', '{all_in_one[11]}', '{all_in_one[10]}', '{free_ids[4]+1}', '{free_ids[3]+1}');\n"
-                    f"GO\n"
-                    f"INSERT INTO mitarbeiter (vorname, nachname, geburtsdatum, ma_ad_id, telefon_id, email, soft_id, office_id, vertrag_id) VALUES\n"
-                    f"('{all_in_one[0]}', '{all_in_one[1]}', '{dates[0]}', '{free_ids[2]+1}', '{free_ids[9]+1}', '{all_in_one[14]}', '{free_ids[5]+1}', '{all_in_one[17]}', '{free_ids[1]+1}');\n"
-                    f"GO\n")
-    else:
-        send_data = (f"INSERT INTO telefon (telefon_nr_id, telefon_nr) VALUES\n"
-                    f"('{lst[0]}', '{all_in_one[3]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO windows (win_nr_id, win_nr) VALUES\n"
-                    f"('{lst[0]}', '{all_in_one[18]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO msoffice (msoffice_nr_id, msoffice_nr) VALUES\n"
-                    f"('{lst[0]}', '{all_in_one[19]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO power_bi (power_bi_id, power_bi_nr) VALUES\n"
-                    f"('{lst[0]}', '{all_in_one[20]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO software (soft_id, win_nr_id, msoffice_nr_id, power_bi_id) VALUES\n"
-                    f"('{lst[0]}', '{free_ids[8]+1}', '{free_ids[7]+1}', '{free_ids[6]+1}');\n"
-                    f"GO\n"
-                    f"INSERT INTO urlaub (urlaub_id, urlaub_wert) VALUES\n"
-                    f"('{lst[0]}', '{all_in_one[16]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO gehalt (gehalt_id, gehalt_wert) VALUES\n"
-                    f"('{lst[0]}', '{all_in_one[15]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO mitarbeiter_adr (ma_ad_id, ma_ad_str, ma_ad_hnr, ma_ad_ort, ma_ad_plz) VALUES\n"
-                    f"('{lst[0]}', '{all_in_one[4]}', '{all_in_one[5]}', '{all_in_one[7]}', '{all_in_one[6]}');\n"
-                    f"GO\n"
-                    f"INSERT INTO vertrag (vertrag_id, abteilung_id, position_id, vertragbeginn, vertragende, arbeitszeit_id, vertragsart_id, urlaub_id, gehalt_id) VALUES\n"
-                    f"('{lst[0]}', '{all_in_one[8]}', '{all_in_one[9]}', '{dates[1]}', '{dates[2]}', '{all_in_one[11]}', '{all_in_one[10]}', '{free_ids[4]+1}', '{free_ids[3]+1}');\n"
-                    f"GO\n"
-                    f"INSERT INTO mitarbeiter (mitarbeiter_id, vorname, nachname, geburtsdatum, ma_ad_id, telefon_id, email, soft_id, office_id, vertrag_id) VALUES\n"
-                    f"('{lst[0]}', '{all_in_one[0]}', '{all_in_one[1]}', '{dates[0]}', '{free_ids[2]+1}', '{free_ids[9]+1}', '{all_in_one[14]}', '{free_ids[5]+1}', '{all_in_one[17]}', '{free_ids[1]+1}');\n"
-                    f"GO\n")
         
-    print(send_data)
-  
-    # Send Login
-    try:
-        # Execute the SQL command
-        mycursor = myDBcon.cursor()
-        mycursor.execute(send_data)
-        # Commit your changes in the database
-        myDBcon.commit()
-    except:
-        # Roll back in case there is any error
-        myDBcon.rollback()
-                    
-    # Get New Last Mitarbeiter_ID
-    mycursor.execute(get_last_ma_id)
-    last_ma_id_new = mycursor.fetchone()
+        s_data.append([f"INSERT INTO telefon (telefon_nr) VALUES ('{all_in_one[3]}');"])
+        s_data.append([f"INSERT INTO windows (win_nr) VALUES ('{all_in_one[18]}');"])
+        s_data.append([f"INSERT INTO msoffice (msoffice_nr) VALUES ('{all_in_one[19]}');"])
+        s_data.append([f"INSERT INTO power_bi (power_bi_nr) VALUES ('{all_in_one[20]}');"])
+        s_data.append([f"INSERT INTO software (win_nr_id, msoffice_nr_id, power_bi_id) VALUES ('{gw.lists[9][lst[0]][1]}', '{gw.lists[9][lst[0]][2]}', '{gw.lists[9][lst[0]][3]}');"])
+        s_data.append([f"INSERT INTO urlaub (urlaub_wert) VALUES ('{all_in_one[16]}');"])
+        s_data.append([f"INSERT INTO gehalt (gehalt_wert) VALUES ('{all_in_one[15]}');"])
+        s_data.append([f"INSERT INTO mitarbeiter_adr (ma_ad_str, ma_ad_hnr, ma_ad_ort, ma_ad_plz) VALUES ('{all_in_one[4]}', '{all_in_one[5]}', '{all_in_one[7]}', '{all_in_one[6]}');"])
+        s_data.append([f"INSERT INTO vertrag (abteilung_id, position_id, vertragbeginn, vertragende, arbeitszeit_id, vertragsart_id, urlaub_id, gehalt_id) VALUES ('{all_in_one[8]}', '{all_in_one[9]}', '{dates[1]}', '{dates[2]}', '{all_in_one[11]}', '{all_in_one[10]}', '{gw.lists[12][lst[0]][7]}', '{gw.lists[12][lst[0]][8]}');"])
+        s_data.append([f"INSERT INTO mitarbeiter (vorname, nachname, geburtsdatum, ma_ad_id, telefon_id, email, soft_id, office_id, vertrag_id) VALUES ('{all_in_one[0]}', '{all_in_one[1]}', '{dates[0]}', '{gw.lists[3][lst[0]][4]}', '{gw.lists[3][lst[0]][5]}', '{all_in_one[14]}', '{gw.lists[3][lst[0]][7]}', '{gw.lists[3][lst[0]][8]}', '{gw.lists[3][lst[0]][7]}');"])
 
-    we_mad_it = free_ids[0] < last_ma_id_new[0]
+    else:
+        
+        s_data.append([f"UPDATE telefon SET telefon.telefon_nr = '{all_in_one[3]}' WHERE telefon_nr_id = {lst[0]};"])
+        s_data.append([f"UPDATE windows SET windows.win_nr = '{all_in_one[18]}' WHERE win_nr_id = {lst[0]};"])
+        s_data.append([f"UPDATE msoffice SET msoffice.msoffice_nr = '{all_in_one[19]}' WHERE msoffice_nr_id = {lst[0]};"])
+        s_data.append([f"UPDATE power_bi SET power_bi.power_bi_nr = '{all_in_one[20]}' WHERE power_bi_id = {lst[0]};"])
+        s_data.append([f"UPDATE software SET software.win_nr_id = '{gw.lists[9][lst[0]][1]}' WHERE soft_id = {lst[0]};"])
+        s_data.append([f"UPDATE software SET software.msoffice_nr_id = '{gw.lists[9][lst[0]][2]}' WHERE soft_id = {lst[0]};"])         
+        s_data.append([f"UPDATE software SET software.power_bi_id = '{gw.lists[9][lst[0]][3]}' WHERE soft_id = {lst[0]};"]) 
+        s_data.append([f"UPDATE urlaub SET urlaub.urlaub_wert = '{all_in_one[16]}' WHERE urlaub_id = {lst[0]};"])
+        s_data.append([f"UPDATE gehalt SET gehalt.gehalt_wert = '{all_in_one[15]}' WHERE gehalt_id = {lst[0]};"])
+        s_data.append([f"UPDATE mitarbeiter_adr SET mitarbeiter_adr.ma_ad_str = '{all_in_one[4]}' WHERE ma_ad_id = {lst[0]};"])
+        s_data.append([f"UPDATE mitarbeiter_adr SET mitarbeiter_adr.ma_ad_hnr = '{all_in_one[5]}' WHERE ma_ad_id = {lst[0]};"]) 
+        s_data.append([f"UPDATE mitarbeiter_adr SET mitarbeiter_adr.ma_ad_ort = '{all_in_one[7]}' WHERE ma_ad_id = {lst[0]};"])
+        s_data.append([f"UPDATE mitarbeiter_adr SET mitarbeiter_adr.ma_ad_plz = '{all_in_one[6]}' WHERE ma_ad_id = {lst[0]};"])
+        s_data.append([f"UPDATE vertrag SET vertrag.abteilung_id = '{all_in_one[8]}' WHERE vertrag_id = {lst[0]};"])
+        s_data.append([f"UPDATE vertrag SET vertrag.position_id = '{all_in_one[9]}' WHERE vertrag_id = {lst[0]};"])
+        s_data.append([f"UPDATE vertrag SET vertrag.vertragbeginn = '{dates[1]}' WHERE vertrag_id = {lst[0]};"])
+        s_data.append([f"UPDATE vertrag SET vertrag.vertragende = '{dates[2]}' WHERE vertrag_id = {lst[0]};"])
+        s_data.append([f"UPDATE vertrag SET vertrag.arbeitszeit_id = '{all_in_one[11]}' WHERE vertrag_id = {lst[0]};"])
+        s_data.append([f"UPDATE vertrag SET vertrag.vertragsart_id = '{all_in_one[10]}' WHERE vertrag_id = {lst[0]};"])
+        s_data.append([f"UPDATE vertrag SET vertrag.urlaub_id = '{gw.lists[12][lst[0]][7]}' WHERE vertrag_id = {lst[0]};"])
+        s_data.append([f"UPDATE vertrag SET vertrag.gehalt_id = '{gw.lists[12][lst[0]][8]}' WHERE vertrag_id = {lst[0]};"])
+        s_data.append([f"UPDATE mitarbeiter SET mitarbeiter.vorname = '{all_in_one[0]}' WHERE mitarbeiter_id = {lst[0]};"])
+        s_data.append([f"UPDATE mitarbeiter SET mitarbeiter.nachname = '{all_in_one[1]}' WHERE mitarbeiter_id = {lst[0]};"])
+        s_data.append([f"UPDATE mitarbeiter SET mitarbeiter.geburtsdatum = '{dates[0]}' WHERE mitarbeiter_id = {lst[0]};"])
+        s_data.append([f"UPDATE mitarbeiter SET mitarbeiter.ma_ad_id = '{gw.lists[3][lst[0]][4]}' WHERE mitarbeiter_id = {lst[0]};"])
+        s_data.append([f"UPDATE mitarbeiter SET mitarbeiter.telefon_id = '{gw.lists[3][lst[0]][5]}' WHERE mitarbeiter_id = {lst[0]};"])
+        s_data.append([f"UPDATE mitarbeiter SET mitarbeiter.email = '{all_in_one[14]}' WHERE mitarbeiter_id = {lst[0]};"])
+        s_data.append([f"UPDATE mitarbeiter SET mitarbeiter.soft_id = '{gw.lists[3][lst[0]][7]}' WHERE mitarbeiter_id = {lst[0]};"])
+        s_data.append([f"UPDATE mitarbeiter SET mitarbeiter.office_id = '{gw.lists[3][lst[0]][8]}' WHERE mitarbeiter_id = {lst[0]};"])
+        s_data.append([f"UPDATE mitarbeiter SET mitarbeiter.vertrag_id = '{gw.lists[3][lst[0]][9]}' WHERE mitarbeiter_id = {lst[0]};"])
+  
+    # Send Data
     
-    print(we_mad_it)
-    # if we_mad_it:
-    #     its_ok = mb.showinfo(title="Its OK", message="Its OK!", parent=self)
-    # else: mb.showinfo(title="Trubbles", message="We Have Trubbles!", parent=self)
-                
-    #if we_mad_it and its_ok: self.destroy()
+    for x in range(len(s_data)):  
+        try:
+            # Execute the SQL command
+            mycursor = myDBcon.cursor()
+            print(s_data[x][0])
+            mycursor.execute(s_data[x][0])
+            # Commit your changes in the database
+            myDBcon.commit()
+        except:
+            # Roll back in case there is any error
+            print("Rollback")
+            myDBcon.rollback()
+                    
+    gw.tab_frame.forget()
+        
+    gw.buttonselect.forget()
+    gw.buttondeselect.forget()
+    gw.buttonaddma.forget()
+    gw.buttondelete.forget()
+    gw.buttontops.forget()
+
+    gw.create_table()
+    gw.load_buttons()

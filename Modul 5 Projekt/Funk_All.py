@@ -70,12 +70,12 @@ class add_user_gui(ttk.Toplevel):
 
         def vertrag_ausgeben(event):
             global vertrag
-            vertrag = ein_11.get()
+            vertrag = ein_12.get()
             return vertrag
     
         def beschaf_ausgeben(event):
             global beschaf
-            beschaf = ein_12.get()
+            beschaf = ein_11.get()
             return beschaf
     
         def office_ausgeben(event):
@@ -102,20 +102,20 @@ class add_user_gui(ttk.Toplevel):
 
              def conv_date(t, x):
                  t = t.split(x)
-                 date = datetime.datetime(int(t[2]), int(t[1]), int(t[0]))
+                 if len(t[0]) == 4: date = datetime.date(int(t[0]), int(t[1]), int(t[2]))
+                 if len(t[0]) <= 2: date = datetime.date(int(t[2]), int(t[1]), int(t[0]))
                  return date
 
              if type(t) is not datetime.date:
                  if len(t.split(",")) > 2 : d = conv_date(t, ",")
                  elif len(t.split(".")) > 2: d = conv_date(t, ".")
                  elif len(t.split("/")) > 2: d = conv_date(t, "/")
+                 elif len(t.split("-")) > 2: d = conv_date(t, "-")
                  else: d = None
-             else: d = None
+             else: d = t
              
-             if flag == True and d == None:
-                 d = t
-             elif flag == False and d == None or len(d) <2:
-                 d = "0000"
+             if flag == False and d == None:
+                d = "0000"
              else: pass
              
              return d
@@ -184,16 +184,18 @@ class add_user_gui(ttk.Toplevel):
             try:
                 for c in range(len(gw.lists[13])):
                     if gw.lists[13][c][1] == vertrag:
-                        vertrag_id = gw.lists[13][c][0]
-            except NameError: vertrag_id = user[21]-1
+                        vertrag_id = gw.lists[13][c][0]+1
+            except NameError: vertrag_id = user[21]
+            print(vertrag_id)
             all_in_one.append(vertrag_id)
             
             # Get Beschäftigung_ID 12
             try:
                 for c in range(len(gw.lists[1])):
                     if gw.lists[1][c][1] == beschaf:
-                        beschaf_id = gw.lists[1][c][0]
-            except NameError: beschaf_id = user[20]-1
+                        beschaf_id = gw.lists[1][c][0]+1
+            except NameError: beschaf_id = user[20]
+            print(beschaf_id)
             all_in_one.append(beschaf_id)
             
             t2 = ein_13.get()
