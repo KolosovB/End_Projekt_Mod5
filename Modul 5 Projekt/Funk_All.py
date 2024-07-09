@@ -18,9 +18,8 @@ class add_user_gui(ttk.Toplevel):
     def __init__(self, lst):
         
         self.lst = lst
-        
         global flag, user
-        
+
         user = []
         
         if len(self.lst) > 0:
@@ -53,7 +52,6 @@ class add_user_gui(ttk.Toplevel):
                 else:
                     user.append("None")
 
-        
         def somewehere(x):
              some = []
              for line in gw.lists[x]:
@@ -116,9 +114,10 @@ class add_user_gui(ttk.Toplevel):
              
              if flag == True and d == None:
                  d = t
-             elif flag == False and d == None:
-                 d = "-"
-
+             elif flag == False and d == None or len(d) <2:
+                 d = "0000"
+             else: pass
+             
              return d
         
         def samle_all():
@@ -223,7 +222,11 @@ class add_user_gui(ttk.Toplevel):
             all_in_one.append(ein_20.get())
             all_in_one.append(ein_21.get())
             
-            fcon.send_an_db(all_in_one)
+            check_bereitschaft = mb.askyesno(title="Bereitschaft", message="Sind Sie sicher?", parent = self)
+            
+            if check_bereitschaft:
+                fcon.send_an_db(all_in_one, lst)
+                self.destroy()
 
         office_liste = []
         office_liste = somewehere(6)

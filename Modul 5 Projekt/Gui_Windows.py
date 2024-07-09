@@ -8,6 +8,8 @@ import Funk_All as fa
 from PIL import Image, ImageTk as itk
 import pyodbc as dbcon
 from encodings import utf_8
+import datetime as dt
+from datetime import datetime, timedelta
 
 global myDBcon, d_width, d_height
 
